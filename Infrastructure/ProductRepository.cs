@@ -19,7 +19,7 @@ public class ProductRepository(StoreContext context) : IProductRepository
         context.Products.Remove(product);
     }
 
-    public async Task<IReadOnlyList<string>> GetBrandsAsync()
+    public async Task<IReadOnlyList<string>> GetBrandsAsync() 
     {
         return await context.Products.Select(z => z.Brand)
         .Distinct()
