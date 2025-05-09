@@ -36,6 +36,35 @@ public class ProductRepository(StoreContext context) : IProductRepository
         return await context.Products.ToListAsync();
     }
 
+    public async Task<IReadOnlyList<Product>> GetProducts(string? brands, string? type, string? sort)
+    {
+        IQueryable<Product>? query = null;
+        if (!string.IsNullOrWhiteSpace(brands)){
+            query = context.Products.Where(x => x.Brand == brands);
+        }
+        if (!string.IsNullOrWhiteSpace(type)){
+            query = context.Products.Where(x => x.Type == type);
+        }
+        if (string.IsNullOrWhiteSpace(brands) && string.IsNullOrWhiteSpace(type)){
+            query = context.Products;
+        }
+        if (query != null)
+        {
+            query = sort switch
+            {
+                "priceAsc" => query.OrderBy(x => x.Price),
+                "priceDesc" => query.OrderByDescending(x => x.Price),
+                _ => query.OrderBy(x => x.Name)
+            };
+            return await query.ToListAsync();
+
+        }
+         return new List<Product>().AsReadOnly();
+       
+
+        
+    }
+
     public async Task<IReadOnlyList<string>> GetTypesAsync()
     {
         return await context.Products.Select(z => z.Type)
