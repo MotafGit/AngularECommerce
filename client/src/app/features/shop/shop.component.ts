@@ -16,6 +16,8 @@ import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angula
 import { ShopParams } from '../../models/shopParams';
 import { Pagination } from '../../models/pagination';
 import { FormsModule } from '@angular/forms';
+import { BusyService } from '../../core/services/busy.service';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 
 @Component({
@@ -30,7 +32,8 @@ import { FormsModule } from '@angular/forms';
     MatListOption,
     MatMenuTrigger,
     MatPaginator,
-    FormsModule
+    FormsModule,
+    MatProgressBar
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -38,6 +41,8 @@ import { FormsModule } from '@angular/forms';
 export class ShopComponent implements OnInit {
   private shopService = inject (ShopService)
   private dialogService = inject(MatDialog)
+  busyService = inject(BusyService);
+
   products?: Pagination<Product>;
   sortOptions = 
     [ 
@@ -51,8 +56,6 @@ export class ShopComponent implements OnInit {
   ngOnInit(): void {
     this.initializeShop()
   }
-  id = 2;
-
 
   initializeShop() {
     this.shopService.getBrands();

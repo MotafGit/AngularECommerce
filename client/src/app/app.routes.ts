@@ -2,12 +2,20 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { ShopComponent } from './features/shop/shop.component';
 import { ProductDetailsComponent } from './features/shop/product-details/product-details.component';
+import { TestErrorComponent } from './test-error/test-error.component';
+import { NotFoundComponent } from './shared/components/not-found/not-found.component';
+import { ServerErrorComponent } from './shared/components/server-error/server-error.component';
+import { CartComponent } from './features/cart/cart.component';
 
 export const routes: Routes = [
     {path:'', component: HomeComponent},
     {path:'shop', component: ShopComponent},
     {path:'shop/:id', component: ProductDetailsComponent},
-    {path:'**', redirectTo: '', pathMatch:'full'}
+    {path:'cart', component: CartComponent},
+    {path:'testError', component: TestErrorComponent},
+    {path:'notfound', component: NotFoundComponent},
+    {path:'servererror', component: ServerErrorComponent},
+    {path:'**', redirectTo: 'notfound', pathMatch:'full'}
 
 ];
  

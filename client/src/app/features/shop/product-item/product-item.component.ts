@@ -6,6 +6,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { ShopService } from '../../../core/services/shop.service';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../../core/services/cart.service';
 
 
 @Component({
@@ -27,11 +28,12 @@ export class ProductItemComponent {
 
   @Input() product?: Product;
 
+  cartService = inject(CartService)
 
-    getProductById(id: number){
-    console.log("sim")
-    this.shopService.getProduct(id);
-  }
+  //   getProductById(id: number){
+  //   console.log("sim")
+  //   this.shopService.getProduct(id);
+  // }
 
 }
 
