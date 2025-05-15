@@ -38,3 +38,11 @@ $customTheme: mat.define-theme();
     --mat-snack-bar-button-color: white;
     --mdc-snackbar-supporting-text-color: white;
 }
+
+// button.match-input-height{
+//     height: var(--mat-form-field-container-height)
+// }
+
+.mdc-notched-outline__notch{
+    border-right-style :none!important;
+}

@@ -11,5 +11,12 @@ public interface ICartService
 
     Task<bool> DeleteCartAsync(string id); 
 
+//    Task<bool> DeleteProductFromCart(int id); 
+
+
+
+
+    
+
 
 }

@@ -16,6 +16,11 @@ public class CartService(IConnectionMultiplexer redis) : ICartService
         return await _database.KeyDeleteAsync(id);
     }
 
+    // public async Task<bool> DeleteProductFromCart(int id)
+    // {
+    //     
+    // }
+
     public async Task<ShoppingCart?> GetCartAsync(string id)
     {
         var data = await _database.StringGetAsync(id);

@@ -33,4 +33,12 @@ public class CartController(ICartService cartService) : BaseApiController
 
         return Ok();
     }
+
+    // [HttpDelete("/deleteProductFromCart/{id}")]
+    // public async Task<ActionResult> DeleteProductFromCart(int id){
+    //     var result = await cartService.DeleteProductFromCart(id);
+    //     if (!result){return BadRequest("Couldnt delete product from cart");}
+
+    //     return Ok();
+    // }
 }

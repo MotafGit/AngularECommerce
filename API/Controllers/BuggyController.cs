@@ -1,6 +1,8 @@
 using System;
+using System.Security.Claims;
 using API.DTO;
 using Core.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,5 +38,14 @@ public class BuggyController : BaseApiController
     public IActionResult GetValidationError(ProductDto product)
     {
         return  Ok();
+    }
+
+    [Authorize]
+    [HttpGet("abc")]
+    public IActionResult abc(){
+        var name = User.FindFirst(ClaimTypes.Name)?.Value;
+        var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        return Ok("hello " + name + " with id " + id);
     }
 }
