@@ -12,7 +12,6 @@ import { CartService } from '../../../core/services/cart.service';
     RouterLink,
     MatButton,
     MatIcon,
-    CurrencyPipe
   ],
   templateUrl: './cart-item.component.html',
   styleUrl: './cart-item.component.scss'

@@ -1,7 +1,13 @@
 export type CartType = {
     id: string ;
     items: CartItem[];
+    deliveryMethodID?: number
+    clientSecret?: string
+    paymentIntentId?: string
+    // public List<Payment> Payments { get; set; } = [];
+
 }
+
 
 export type CartItem = {
     productId: number
@@ -17,3 +23,4 @@ export class Cart implements CartType{
     id = "1"
     items: CartItem[] = []
 }
+

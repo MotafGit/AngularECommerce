@@ -4,6 +4,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-order-summary',
@@ -20,5 +21,5 @@ import { CartService } from '../../../core/services/cart.service';
 export class OrderSummaryComponent {
   
   cartService = inject(CartService);
-
+  location = inject(Location)
 }

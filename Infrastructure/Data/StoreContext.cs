@@ -12,6 +12,15 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
 
     public DbSet<UserAddress> Addresses { get; set; }
 
+    public DbSet<Delivery> Delivery { get; set; }
+
+    public DbSet<Payment> Payment { get; set; }
+
+
+    public DbSet<PaymentType> PaymentTypes { get; set; }
+
+
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

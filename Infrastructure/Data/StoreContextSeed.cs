@@ -18,5 +18,30 @@ public class StoreContextSeed
 
             await context.SaveChangesAsync();                                                               
         }
+        
+
+        if (!context.Delivery.Any()){
+            var deliveryData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+
+            var delivery = JsonSerializer.Deserialize<List<Delivery>>(deliveryData);
+
+            if (delivery == null) return;
+
+            context.Delivery.AddRange(delivery);
+
+            await context.SaveChangesAsync();                                                               
+        }
+        if (!context.PaymentTypes.Any()){
+            var paymentsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/paymentTypes.json");
+
+            var payment = JsonSerializer.Deserialize<List<PaymentType>>(paymentsData);
+
+            if (payment == null) return;
+
+            context.PaymentTypes.AddRange(payment);
+
+            await context.SaveChangesAsync();                                                               
+        }
     }
+        
 }

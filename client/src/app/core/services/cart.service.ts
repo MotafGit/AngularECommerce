@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 export class CartService {
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient)
+  shippingPrice = signal<number> (0)
   cart = signal<Cart | null>(null)
   cartItemCount = computed(() => {
     if (this.cart()?.items.length === 0 || this.cart() === null || this.cart()?.items.length === undefined ) return 0
@@ -18,10 +19,11 @@ export class CartService {
   })
 
   totals = computed(() => {
+    console.log("sim")
     const cart = this.cart();
     // if (!cart) return null
     const subtotal = cart ? cart.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) : 0
-    const shipping = 0;
+    const shipping = this.shippingPrice();
     const discount = 0;
     
     return{

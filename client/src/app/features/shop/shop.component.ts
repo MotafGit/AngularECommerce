@@ -23,7 +23,6 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 @Component({
   selector: 'app-shop',
   imports: [
-    MatCard,
     ProductItemComponent,
     MatButton,
     MatIcon,
@@ -33,7 +32,6 @@ import { MatProgressBar } from '@angular/material/progress-bar';
     MatMenuTrigger,
     MatPaginator,
     FormsModule,
-    MatProgressBar
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'

@@ -46,3 +46,8 @@ $customTheme: mat.define-theme();
 .mdc-notched-outline__notch{
     border-right-style :none!important;
 }
+
+input:-internal-autofill-selected{
+    background-color: white!important;
+    box-shadow: 0 0 0px 1000px white inset;
+}
