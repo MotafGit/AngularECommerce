@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { CartItem } from '../../../models/cart';
+import { Cart, CartItem } from '../../../models/cart';
 import { RouterLink } from '@angular/router';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -20,8 +20,9 @@ export class CartItemComponent {
   item = input.required<CartItem>();
   cartService = inject(CartService)
 
-  incrementQuantity(){
-    this.cartService.addItemToCart(this.item())
+
+  incrementQuantity(item: CartItem){
+    this.cartService.addItemToCart(item, 1, undefined)
   }
 
   decrementQuantity(){

@@ -1,0 +1,20 @@
+[
+  {
+    "PaymentName": "Credit / Debit Card"
+  },
+  {
+    "PaymentName": "Apple Pay"
+  },
+  {
+    "PaymentName": "Google Pay"
+  },
+  {
+    "PaymentName": "MB WAY"
+  },
+  {
+    "PaymentName": "Bank Transfer"
+  },
+  {
+    "PaymentName": "Mobile Payments"
+  }
+]

@@ -11,6 +11,8 @@ import { LoginComponent } from './features/account/login/login.component';
 import { RegisterComponent } from './features/account/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
 import { checkoutGuard } from './core/guards/checkout.guard';
+import { AdminComponent } from './admin/admin/admin.component';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
     {path:'', component: HomeComponent},
@@ -18,6 +20,7 @@ export const routes: Routes = [
     {path:'shop/:id', component: ProductDetailsComponent},
     {path:'cart', component: CartComponent},
     {path:'checkout', component: CheckoutComponent, canActivate: [authGuard, checkoutGuard]},
+    {path:'admin', component: AdminComponent, canActivate: [adminGuard]},
     {path:'account/login', component: LoginComponent},
     {path:'account/register', component: RegisterComponent},
     {path:'testError', component: TestErrorComponent},

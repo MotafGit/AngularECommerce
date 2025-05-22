@@ -7,4 +7,5 @@ export type Product = {
     type: string
     brand: string
     quantity: number
+    isProduct: boolean
 }

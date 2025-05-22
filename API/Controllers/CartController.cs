@@ -18,9 +18,9 @@ public class CartController(ICartService cartService) : BaseApiController
     }
 
     [HttpPost]
-    public async Task<ActionResult<ShoppingCart>> UpdateCart(ShoppingCart cart)
+    public async Task<ActionResult<ShoppingCart>> UpdateCart([FromBody] CartUpdateRequest request)
     {
-        var updatedCart = await cartService.SetCartAsync(cart);
+        var updatedCart = await cartService.SetCartAsync(request.Cart, request.Email);
         if (updatedCart == null) return BadRequest ("Couldnt update card");
         return updatedCart;
     }
@@ -41,4 +41,11 @@ public class CartController(ICartService cartService) : BaseApiController
 
     //     return Ok();
     // }
+
+    public class CartUpdateRequest
+    {
+        public required ShoppingCart Cart { get; set; }
+        public string? Email { get; set; }
+    }
+
 }

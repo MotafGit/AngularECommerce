@@ -18,6 +18,10 @@ import { MatInput } from '@angular/material/input';
 export class TextInputComponent implements ControlValueAccessor  {
   @Input() label = '';
   @Input() type = 'text';
+  @Input() placeholder = '';
+  @Input() error = '';
+
+
 
   constructor(@Self() public controlDir: NgControl){
      this.controlDir.valueAccessor = this;

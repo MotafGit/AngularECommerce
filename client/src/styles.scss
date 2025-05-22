@@ -3,6 +3,10 @@
 
 @import "tailwindcss" important;
 
+// @theme {
+//   --breakpoint-xs: 300px;
+// }
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -10,6 +14,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 $customTheme: mat.define-theme();
 
 @include mat.core();
+
+@media screen and (max-width: 960px) {
+
+    .radioGroup{
+    grid-template-columns: repeat(1, minmax(0, 1fr))!important;
+    }
+
+}
+
+.radioGroup{
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap:20px
+}
+
 
 .custom-theme{
     @include mat.all-component-themes($customTheme);
@@ -39,6 +56,12 @@ $customTheme: mat.define-theme();
     --mdc-snackbar-supporting-text-color: white;
 }
 
+.mat-mdc-card{
+    border:1px solid #e5e7eb!important;
+    background-color: white!important;
+
+}
+
 // button.match-input-height{
 //     height: var(--mat-form-field-container-height)
 // }
@@ -51,3 +74,10 @@ input:-internal-autofill-selected{
     background-color: white!important;
     box-shadow: 0 0 0px 1000px white inset;
 }
+
+.userEmailHeader > .mdc-button__label{
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}
+

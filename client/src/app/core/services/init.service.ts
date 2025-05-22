@@ -12,7 +12,12 @@ export class InitService {
   private accountService = inject(AccountService)
 
   init(){
-    const cartId = localStorage.getItem('cart_id')
+    var cartId
+
+      cartId = localStorage.getItem('cart_id')
+    
+
+    
    //const cartId = "1"
     const cart$ = cartId ? this.cartService.getCart(cartId) : of(null)
     

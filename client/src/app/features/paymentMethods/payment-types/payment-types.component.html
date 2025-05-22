@@ -1,1 +1,17 @@
-<p>payment-types works!</p>
+<div>
+    <mat-radio-group class="radioGroup" >
+        @for (type of paymentTypes; track type.id) {
+            <label class=" p-3 border border-gray-200 cursor pointer w-full h-full  hover:bg-purple-100" style="cursor: pointer;" [ngStyle]="{'background-color': type.id === checkoutService.selectedType()?.id ? '#f9c1f9' : 'white'}" >
+                <mat-radio-button class=" w-full h-full" [value]="type" (click)="checkoutService.selectedType.set(type);" >
+                    <div class="flex w-full h-full" style="cursor: pointer;">
+                        
+                        <strong class="flex"> <fa-icon class="icon-display" [icon]="type.icon"></fa-icon> <p class="pl-2">{{ type.paymentName }} </p> </strong>
+                    </div>
+                </mat-radio-button>
+            </label>
+        }
+    </mat-radio-group>
+</div>
+
+
+<!-- <mat-icon class="icon-display ">{{type.icon}}</mat-icon>  -->

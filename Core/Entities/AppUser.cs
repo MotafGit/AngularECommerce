@@ -11,4 +11,7 @@ public class AppUser : IdentityUser
 
     public UserAddress? Address { get; set; }
 
+    public string? cartID { get; set; }
+
+
 }

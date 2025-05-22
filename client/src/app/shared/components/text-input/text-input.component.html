@@ -1,10 +1,14 @@
          <mat-form-field  form-field appearance="outline" class="w-full mb-4">
             <mat-label>{{label}}</mat-label>
-            <input [formControl]="control" type={{type}} matInput>
+            <input [formControl]="control" type={{type}} matInput placeholder={{placeholder}}>
             @if(control.hasError('required')){
                 <mat-error> {{label}} is required</mat-error>
             }
              @if(control.hasError('email')){
                 <mat-error> email is invalid </mat-error>
-            }  
+            }            
+              <!-- @if(control.hasError('maxlength')){
+                <mat-error> abc 321</mat-error>
+            }     -->
+            
         </mat-form-field> 

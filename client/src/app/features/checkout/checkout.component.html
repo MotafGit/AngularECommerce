@@ -1,9 +1,9 @@
-<div class="flex mt-32 gap-6">
-    <div class="w-3/4">
+<div class="flex mt-32 gap-6 justify-center checkout">
+    <div class="w-3/4 m-4 loginForm">
         <mat-stepper #stepper class="bg-white border border-gray-200 shadow-sm">
             <mat-step label="Address">
                <div class="mt-2">
-                   <form [formGroup]="addressForm">
+                   <form [formGroup]="checkoutService.addressForm">
                             <app-text-input label="Full name" formControlName="fullName" />
                             <app-text-input label="Country" formControlName="country" />
                             <app-text-input label="Address line 1" formControlName="line1"  />
@@ -17,15 +17,15 @@
                     </mat-checkbox>
                    </div>
                 </div>
-                <div class="flex justify-between pt-2">
+                <div class="flex justify-between pt-2 formButtons">
                     <button routerLink="/shop" mat-stroked-button> Continue Shopping</button>
-                    <button [disabled]="addressForm.invalid" matStepperNext mat-flat-button (click)="saveAddress(addressForm)"> Next </button>
+                    <button [disabled]="checkoutService.addressForm.invalid" matStepperNext mat-flat-button (click)="saveAddress(checkoutService.addressForm)"> Next </button>
                 </div>
             </mat-step>
 
             <mat-step label="Shipping">
                 <div class="w-full" >
-                    <mat-radio-group class="grid grid-cols-2 gap-4" >
+                    <mat-radio-group class="radioGroup" style="" >
                         @for (delivery of checkoutService.delivery; track delivery.id) {
                             <label class="p-3 border border-gray-200 cursor pointer w-full h-full  hover:bg-purple-100" style="cursor: pointer;" [ngStyle]="{'background-color': delivery.id === selectedDelivery?.id ? '#f9c1f9' : 'white'}" >
                                 <mat-radio-button class=" w-full h-full" [value]="delivery" (click)="selectedDelivery = delivery; UpdatePrice(delivery.price)" >
@@ -38,7 +38,7 @@
                         }
                     </mat-radio-group>
                 </div>
-                <div class="flex justify-between pt-2">
+                <div class="flex justify-between pt-2 formButtons">
                     <button matStepperPrevious mat-stroked-button> Back</button>
                     <button [disabled]="selectedDelivery === undefined" matStepperNext mat-flat-button> Next </button>
                 </div>
@@ -47,14 +47,28 @@
             <mat-step label="Payment">
                 <div>
                     <app-payment-types></app-payment-types>
+                    <div style="padding-top:60px">
+                        <app-payment-display></app-payment-display>
+                    </div>
+                    <div class="flex justify-between pt-2 formButtons">
+                        <button matStepperPrevious mat-stroked-button> Back</button>
+                        <button matStepperNext mat-flat-button> Next </button>
+                    </div>
                 </div>
             </mat-step>
-            <mat-step label="Address">
-                Review Form
+            <mat-step label="Confirmation">
+                <app-checkout-confirmation></app-checkout-confirmation>
             </mat-step>
         </mat-stepper>
     </div>
-    <div class="w-1/4">
+    <div class="flex-grow m-4" style="min-width: 300px;max-width: 918px;">
         <app-order-summary></app-order-summary>
+        <div class="pt-3">
+            <button mat-flat-button class="rounded-md bg-black w-full">
+                Place Order
+            </button>
+        </div>
     </div>
+
+
 </div>

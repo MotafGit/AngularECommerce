@@ -10,7 +10,7 @@
                 </button>
                 <div class="font-semibold text-xl mb-1">{{item().quantity}}</div>
 
-                <button mat-icon-button (click)="incrementQuantity()">
+                <button mat-icon-button (click)="incrementQuantity(item())">
                     <mat-icon class="text-green-600">add</mat-icon>
                 </button>
             </div>

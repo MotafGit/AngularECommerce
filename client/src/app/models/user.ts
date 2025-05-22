@@ -3,6 +3,7 @@ export type User = {
     lastName: string
     email: string
     address: Address
+    cartID: string
 }
 
 export type Address = {

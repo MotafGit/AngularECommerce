@@ -16,6 +16,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { CartService } from '../../core/services/cart.service';
 import { PaymentTypesComponent } from "../paymentMethods/payment-types/payment-types.component";
+import { PaymentDisplayComponent } from "../paymentMethods/payment-display/payment-display.component";
+import { CheckoutConfirmationComponent } from "../checkout-confirmation/checkout-confirmation.component";
+import { SharedServices } from '../../core/services/shared.service';
 
 @Component({
   selector: 'app-checkout',
@@ -29,7 +32,9 @@ import { PaymentTypesComponent } from "../paymentMethods/payment-types/payment-t
     MatCheckboxModule,
     MatRadioModule,
     CommonModule,
-    PaymentTypesComponent
+    PaymentTypesComponent,
+    PaymentDisplayComponent,
+    CheckoutConfirmationComponent
 ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
@@ -64,18 +69,18 @@ method: any;
     UpdatePrice(price: number){
       this.cartService.shippingPrice.set(price)
     }
-    private fb = inject(FormBuilder)
-    validationErrors?: string[]
-    addressForm = this.fb.group({
-      fullName: ['', Validators.required],
-      country: ['',Validators.required],
-      line1: ['', Validators.required ],
-      line2: [''],
-      city: ['', Validators.required],
-      postalCode: ['', Validators.required],
-      district: ['InputNotImplemented'],
+    // private fb = inject(FormBuilder)
+    // validationErrors?: string[]
+    // addressForm = this.fb.group({
+    //   fullName: ['', Validators.required],
+    //   country: ['',Validators.required],
+    //   line1: ['', Validators.required ],
+    //   line2: [''],
+    //   city: ['', Validators.required],
+    //   postalCode: ['', Validators.required],
+    //   district: ['InputNotImplemented'],
 
-    })
+    // })
 
     setUpOrUpdatePayment(){
       return this.paymentService.createOrUpdatePaymentIntent().subscribe({
@@ -84,7 +89,6 @@ method: any;
     } 
     saveAddress(address: FormGroup){
       console.log(address)
-      console.log(this.fb)
       
       if (JSON.stringify(this.aux) == JSON.stringify(address.value)) return
 

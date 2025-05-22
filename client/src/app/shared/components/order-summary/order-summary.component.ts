@@ -5,6 +5,7 @@ import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { Location } from '@angular/common';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-order-summary',
@@ -13,7 +14,8 @@ import { Location } from '@angular/common';
     RouterLink,
     MatFormField,
     MatLabel,
-    MatInput
+    MatInput,
+    MatButtonModule
   ],
   templateUrl: './order-summary.component.html',
   styleUrl: './order-summary.component.scss'

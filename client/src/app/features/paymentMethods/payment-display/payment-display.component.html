@@ -1,1 +1,122 @@
-<p>payment-display works!</p>
+
+@if(checkoutService.selectedType()?.id == 1 )
+{
+    <form [formGroup]="checkoutService.creditCardForm" class="" style="" >
+        <app-text-input label="Card Number" formControlName="cardNumber" placeholder="0000 0000 0000 0000" />
+        <div class="flex flex-wrap gap-2">
+            <app-text-input class="flex-grow" style="min-width: 300px;" label="Expire Date" formControlName="expireDate" placeholder="MM / YY"  />
+            <app-text-input class="flex-grow" style="min-width: 300px;" label="CVC" formControlName="cvc" placeholder="123"  />
+        </div>
+        <app-text-input label="Cardholder Name" formControlName="cardHolder" placeholder="Name"  />
+    </form>
+}
+
+
+@if(checkoutService.selectedType()?.id == 2 )
+{
+    <div class="bg-gray-100 p-4">
+        <div class="text-sm text-neutral-600">
+            Click the Apple Pay button to complete your purchase with Apple Pay.
+        </div>
+        <div class="text-xs text-neutral-400 pt-2">
+            You'll be able to review your order before finalizing the payment.
+        </div>
+    </div>
+}
+
+@if(checkoutService.selectedType()?.id == 3 )
+{
+        <div class="bg-gray-100 p-4">
+        <div class="text-sm text-neutral-600">
+            Click the Google Pay button to complete your purchase securely.
+        </div>
+        <div class="text-xs text-neutral-400 pt-2">
+            Your payment information is protected by Google's secure payment system.
+        </div>
+    </div>
+}
+
+
+@if(checkoutService.selectedType()?.id == 4 )
+{
+    <form [formGroup]="checkoutService.mbWayForm" class="" style="" >
+        <app-text-input label="Phone Number" formControlName="phoneNumber" placeholder="900 000 000" />
+    </form>
+}
+
+@if(checkoutService.selectedType()?.id == 5 )
+{
+    <div class="flex flex-col space-y-4 rounded-lg border border-gray-200 bg-slate-50 shadow-sm p-4">
+        <div>
+            <strong>
+                Bank Transfer Details
+            </strong>
+        </div>
+
+        <div class="flex">
+            <div class="w-1/2 text-slate-500">
+                Bank Name:
+            </div>
+            <div class="w-1/2 font-medium">
+                Example Bank
+            </div>
+        </div>
+                
+        <div class="flex">
+            <div class="w-1/2 text-slate-500">
+                IBAN:
+            </div>
+            <div class="w-1/2 font-medium">
+                PT50 0000 0000 0000 0000 0000 0
+            </div>
+        </div>
+                
+        <div class="flex">
+            <div class="w-1/2 text-slate-500">
+                BIC/SWIFT:
+            </div>
+            <div class="w-1/2 font-medium">
+                EXAMPLEXX
+            </div>
+        </div>
+                
+        <div class="flex">
+            <div class="w-1/2 text-slate-500">
+                Reference:
+            </div>
+            <div class="w-1/2 font-medium">
+                ORD-12345
+            </div>
+        </div>
+        
+        <div class="w-full">
+            <button mat-stroked-button class="w-full">
+                Download Transfer Details
+            </button>
+        </div>
+
+        <div class="w-full">
+            <button mat-flat-button class="w-full text-white"  style="">
+                I've completed the transfer
+            </button>
+        </div>
+    </div>
+}
+
+@if(checkoutService.selectedType()?.id == 6 )
+{   
+   
+    <form [formGroup]="checkoutService.mobilePaymentsForm" class="" style="" >
+         
+        <app-text-input label="Phone Number" formControlName="phoneNumber" placeholder="900 000 000"/>
+        <mat-form-field class="w-full">
+          <mat-label>Mobile Carrier</mat-label>
+            <mat-select formControlName="carrier">
+                
+                <mat-option value=1 label="Meo">Meo</mat-option>
+                <mat-option value=2 label="Nos">Nos</mat-option>
+                <mat-option value=3 label="Vodafone">Vodafone</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+}

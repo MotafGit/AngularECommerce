@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../../models/cart';
 import { Product } from '../../models/product';
 import { map } from 'rxjs';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { map } from 'rxjs';
 export class CartService {
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient)
+  
   shippingPrice = signal<number> (0)
   cart = signal<Cart | null>(null)
   cartItemCount = computed(() => {
@@ -19,9 +21,8 @@ export class CartService {
   })
 
   totals = computed(() => {
-    console.log("sim")
     const cart = this.cart();
-    // if (!cart) return null
+    if (!cart) return null
     const subtotal = cart ? cart.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) : 0
     const shipping = this.shippingPrice();
     const discount = 0;
@@ -43,13 +44,12 @@ export class CartService {
         cart.items[index].quantity -= quantity
       }
       else{
-        console.log("entra ca sim")
         cart.items.splice(index, 1)
       }
       if (cart.items.length === 0){
         this.deleteCart()
       } else {
-        this.setCart(cart)
+        this.setCart(cart, undefined)
       }
     }
   }
@@ -71,21 +71,32 @@ export class CartService {
       })
     )
   }
-
-  setCart(cart:Cart){
-    return this.http.post<Cart>(this.baseUrl + 'cart', cart).subscribe({
-      next: cart => this.cart.set(cart)
+      // return this.http.post<Cart>(this.baseUrl + 'payment/setUpPayment/' + cart.id + '/' + this.accountService.currentUser()?.email, {}).pipe(
+  setCart(cart:Cart, email:string | undefined){
+    console.log(email)
+    return this.http.post<Cart>(this.baseUrl + 'cart' , {cart, email}).subscribe({
+      next: cart => {
+        this.cart.set(cart)
+       // if(email != undefined){
+          localStorage.setItem("cart_id", this.cart()?.id!)
+       // }
+      }
     })
   }
 
-  addItemToCart(item: CartItem | Product, quantity = 1){
-    
+  addItemToCart(item: CartItem | Product, quantity = 1, email: string | undefined){
+    console.log(item)
     const cart = this.cart() ?? this.createCart()
+    console.log(cart)
     if (this.isProduct(item)){
       item = this.mapProductToCartItem(item);
+      console.log(item)
     }
+
     cart.items = this.addOrUpdateItem(cart.items, item, quantity)
-    this.setCart(cart)
+    console.log(cart)
+    // if (!email) {this.cart.set(cart); return }// this is here in order to prevent an API call and create a new cart on the backend. once the user logs in, the cart will be created
+    this.setCart(cart, email)
   }
 
   private addOrUpdateItem(items: CartItem[], item: CartItem , quantity: number): CartItem[] {
@@ -116,7 +127,7 @@ export class CartService {
   }
 
   private isProduct(item: CartItem | Product) : item is Product{
-    return (item as Product).id !== undefined
+    return (item as Product).id !== 0
   }
 
   private createCart(){

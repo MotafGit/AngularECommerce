@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Address, User } from '../../models/user';
 import { map, tap } from 'rxjs';
+import { CartService } from './cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class AccountService {
   baseUrl = environment.apiUrl
   private http = inject(HttpClient)
   currentUser = signal <User | null> (null)
+  cartService = inject(CartService)
 
   login (values: any){
     let params = new HttpParams()

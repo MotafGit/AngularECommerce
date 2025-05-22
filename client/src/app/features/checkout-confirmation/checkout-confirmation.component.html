@@ -1,0 +1,164 @@
+<div>
+    <div class="text-3xl font-bold" >
+        Review Your Order
+        <p class="text-slate-400 text-sm font-medium">
+            Please confirm your order details before proceeding
+        </p>
+    </div>
+        
+    <div>
+        <mat-card class="bg-white p-7 mt-4">
+            <div class="flex justify-between">
+                <div class="font-bold text-xl pb-4">
+                    Billing Address
+                </div>
+                <div>
+                    <button mat-stroked-button>
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div>
+                <p>{{ checkoutService.addressForm.get('fullName')?.value}}</p>
+                <p>{{ checkoutService.addressForm.get('line1')?.value}}</p>
+                <p>{{ checkoutService.addressForm.get('line2')?.value}}</p>
+                <p>{{ checkoutService.addressForm.get('city')?.value}} {{ checkoutService.addressForm.get('postalCode')?.value}} </p>
+                <p>{{ checkoutService.addressForm.get('country')?.value}}</p>
+            </div>
+        </mat-card>
+    </div>
+
+    <div>
+        <mat-card class="bg-white p-7 mt-4">
+             <div class="flex justify-between">
+                <div class="font-bold text-xl pb-4">
+                    Payment Method
+                </div>
+                <div>
+                    <button mat-stroked-button>
+                        Edit
+                    </button>
+                </div>
+            </div>
+            @if(checkoutService.selectedType()?.id == 1)
+            {
+                <div class="flex">
+                    <div class="bg-gray-100 pl-3 pr-3" style="height:55px; place-content: center;" > VISA</div>
+                    <div class="flex flex-col pl-5">
+                        <div>
+                            <!-- {{checkoutService.creditCardForm.get('cardNumber')?.value?.slice(0, 4)}} -->
+                            {{ parseCreditCard(checkoutService.creditCardForm.get('cardNumber')?.value)}}
+                        </div>
+                        <div class="text-sm text-slate-400">Expires {{checkoutService.creditCardForm.get('expireDate')?.value}}</div>
+                    </div>
+                </div>
+            }
+            @if(checkoutService.selectedType()?.id == 2)
+            {
+                <div class="bg-gray-100 pl-3 pr-3" style="height:55px; width: 120px; place-content: center;" > Apple Pay</div>
+
+            }
+            @if(checkoutService.selectedType()?.id == 3)
+            {
+                
+                    <div class="bg-gray-100 pl-3 pr-3" style="height:55px; width: 135px; place-content: center;" > Google Pay</div>
+                
+            }
+            @if(checkoutService.selectedType()?.id == 4)
+            {
+                <div class="flex items-center">
+                    <div class=" bg-gray-100 pl-3 pr-3" style="height:55px; place-content: center;" >
+                        MB WAY
+                    </div>
+                    <div class="pl-2">
+                        {{checkoutService.mbWayForm.get('phoneNumber')?.value}}
+                    </div>
+                </div>
+            }
+              @if(checkoutService.selectedType()?.id == 5)
+            {
+                <div class="flex items-center">
+                    <div class=" bg-gray-100 pl-3 pr-3" style="height:55px; place-content: center;" >
+                        Bank Transfer
+                    </div>
+                    <div class="pl-2 text-sm text-slate-400">
+                        Order will be issued when the bank transfer is completed
+                    </div>
+                    
+                </div>
+            }
+
+            @if(checkoutService.selectedType()?.id == 6)
+            {
+                <div class="flex">
+                    <div class="bg-gray-100 pl-3 pr-3" style="height:55px; place-content: center;" > Mobile</div>
+                    <div class="flex flex-col pl-5">
+                        <div>
+                            <!-- {{checkoutService.creditCardForm.get('cardNumber')?.value?.slice(0, 4)}} -->
+                            {{ checkoutService.mobilePaymentsForm.get('phoneNumber')?.value}}
+                        </div>
+                        <div class="text-sm text-slate-400">Expires {{checkoutService.mobilePaymentsForm.get('carrier')?.value}}</div>
+                    </div>
+                </div>
+            }
+
+        </mat-card>
+    </div>
+
+    <div>
+        <mat-card class="p-7 mt-4">
+            <div class="font-bold text-xl pb-4">
+                Order Items
+            </div>
+            <div class="flex flex-col gap-3">
+                @for (item of cartService.cart()?.items; track item.productId)
+                {
+                    <div class="flex justify-between">
+                        <div class="flex">
+                            <div>
+                                    <img src="{{ item.pictureUrl}}" alt="productImg" class="h-20 w-20">
+                            </div>
+                            <div class="flex flex-col justify-center pl-4">
+                                    <div class="font-medium">
+                                        {{item.productName}}
+                                    </div>
+                                    <div class="text-sm text-slate-400">
+                                        Quantity: {{item.quantity}}
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col justify-center">
+                            <div class="self-end">
+                            {{ item.price * item.quantity}}€
+                            </div>
+                            @if(item.quantity> 1)
+                            {
+                                <div class="text-sm text-slate-400">
+                                    {{ item.price}}€ each
+                                </div>
+                            }
+                        </div>
+                        
+                    </div>
+                }
+            </div>
+        </mat-card>
+
+        <!-- <mat-card class="p-7 mt-4">
+           <div class="flex justify-between">
+                <div class="font-bold text-xl pb-4">
+                    Applied Vouched
+                </div>
+                <div>
+                    <button mat-stroked-button>
+                        Edit
+                    </button>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </mat-card> -->
+    </div>
+
+</div>

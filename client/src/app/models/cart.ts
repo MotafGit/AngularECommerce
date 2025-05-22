@@ -20,7 +20,7 @@ export type CartItem = {
 }
 
 export class Cart implements CartType{
-    id = "1"
+    id = "0"
     items: CartItem[] = []
 }
 

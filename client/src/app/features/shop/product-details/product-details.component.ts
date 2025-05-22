@@ -10,6 +10,7 @@ import { MatInput } from '@angular/material/input';
 import { MatDivider } from '@angular/material/divider';
 import { CartService } from '../../../core/services/cart.service';
 import { FormsModule } from '@angular/forms';
+import { AccountService } from '../../../core/services/account.service';
 
 
 
@@ -31,6 +32,7 @@ import { FormsModule } from '@angular/forms';
 export class ProductDetailsComponent {
   private shopService = inject(ShopService)
   private activatedRoute = inject(ActivatedRoute)
+  private accountService = inject(AccountService)
   cartService = inject(CartService)
   productDetails?: Product
   quantityInCart = 0
@@ -62,8 +64,8 @@ export class ProductDetailsComponent {
     return this.quantityInCart > 0 ? 'Update cart' : 'Add to cart'
   }
 
-  addProduct(productToAdd: Product, quantity: number, qt: number){
-    this.cartService.addItemToCart(productToAdd, quantity)
+  addProduct(productToAdd: Product, quantity: number){
+    this.cartService.addItemToCart(productToAdd, quantity, undefined)
     this.updateQuantityInCart()
   }
 }

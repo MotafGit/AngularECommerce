@@ -7,6 +7,7 @@ import { MatIcon } from '@angular/material/icon';
 import { ShopService } from '../../../core/services/shop.service';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
+import { AccountService } from '../../../core/services/account.service';
 
 
 @Component({
@@ -25,6 +26,7 @@ import { CartService } from '../../../core/services/cart.service';
 })
 export class ProductItemComponent {
   private shopService = inject (ShopService)
+  accountService = inject(AccountService)
 
   @Input() product?: Product;
 

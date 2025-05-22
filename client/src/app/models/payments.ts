@@ -1,4 +1,7 @@
+import { IconDefinition } from "@fortawesome/angular-fontawesome"
+
 export type PaymentType = {
     id: number
-    paymentname: string
+    paymentName: string
+    icon: IconDefinition
 }

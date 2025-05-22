@@ -7,7 +7,7 @@ public interface ICartService
 {
     Task<ShoppingCart?> GetCartAsync(string id);
 
-    Task<ShoppingCart?> SetCartAsync(ShoppingCart cart);
+    Task<ShoppingCart?> SetCartAsync(ShoppingCart cart, string? email);
 
     Task<bool> DeleteCartAsync(string id); 
 
