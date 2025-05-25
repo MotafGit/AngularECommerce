@@ -1,1 +1,115 @@
-<p>product works!</p>
+
+
+   <mat-drawer-container class="p-3 bg-gray-50 " style="height: calc(100vh - 6rem);"  >
+        <mat-drawer #drawer class="p-4 bg-gray-200 " style="max-width:600px ; min-width: 350px; width:50%!important;height: calc(100vh - 7rem);" mode="over" position="end">
+        
+            <app-add-or-edit-product 
+            [productToEdit]="productToEdit" 
+            (closeDrawerEvent)="drawer.toggle()"
+            (createOrUpdateProductReactive)="createOrUpdateProductReactive($event)"
+            ></app-add-or-edit-product>
+
+        </mat-drawer>
+    <div class="flex justify-between">
+        <div class="text-2xl font-bold">
+            Products
+        </div>
+        <div>
+            <button class="flex" mat-stroked-button class="text-white bg-black" (click)="addProduct()">
+                <mat-icon class="self-center" >add</mat-icon>
+                Add Product
+            </button>
+        </div>
+    </div>
+    <div class="w-full pt-4 ">
+                
+        <form #searchForm="ngForm"
+            (ngSubmit)="onSearchChange()"
+            class="relative flex items-center w-full"
+        >
+            <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
+                placeholder="Search"
+                name="search"
+                [(ngModel)]="search"
+            />
+            <button mat-icon-button type="submit"
+                class="absolute inset-y-0 right-8 top-1 flex items-center pl-3"
+            >
+            <mat-icon>search</mat-icon>
+        </button>
+        </form>
+    </div>
+    <div  class="pt-4">
+        @if (tableProducts)
+        {
+              <mat-table [dataSource]="tableProducts.data" class="mat-elevation-z8" class="bg-gray-50 rounded-lg border-1 border-gray-300 box-border overflow-hidden">
+
+            <ng-container matColumnDef="image"  style="max-width: 60px;" class="tableRows">
+                <mat-header-cell *matHeaderCellDef style="max-width: 110px;"> Image </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="max-width: 110px;height: 90px;"><img [src]="element.pictureUrl" alt="Image" style="width: 60px; height: 60px;"></mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"  style="max-height: 90px;justify-content: left!important;"> {{element.name}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.price}}€ </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="stock">
+                <mat-header-cell *matHeaderCellDef> Stock </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.quantityInStock}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+            </ng-container>
+
+
+            <ng-container matColumnDef="brand">
+                <mat-header-cell *matHeaderCellDef> Brand </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.brand}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <mat-header-cell *matHeaderCellDef> Edit  </mat-header-cell>
+                <mat-cell *matCellDef="let element" >
+                    <button (click)="edit(element)">edit</button>
+                </mat-cell>
+            </ng-container>
+            
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+        }
+      
+</div>
+
+ <div>
+         <mat-paginator
+            class = "bg-white"
+            (page)="handleProductTablePageEvent($event)"
+            [length]="tableProducts?.count"
+            [pageSize]="shopParams.pageSize"
+            [showFirstLastButtons]="true"
+            [pageSizeOptions]="pageSizeOptions"
+            [pageIndex]="shopParams.pageNumber - 1"
+            aria-label="Select page"
+        ></mat-paginator>
+    </div>
+
+</mat-drawer-container>
+
+
+
+
+
+

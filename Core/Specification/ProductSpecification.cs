@@ -18,12 +18,12 @@ public class ProductSpecification : BaseSpecification<Product>
         {
             case "priceAsc":
                  AddOrderBy(x => x.Price);
-
                 break;
             case "priceDesc":
-
                 AddOrderByDescending(x => x.Price);
-                
+                break;
+            case "orderByIdDesc":
+                AddOrderByDescending(x => x.Id);
                 break;
             default:
                 AddOrderBy(x => x.Name);

@@ -21,6 +21,13 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         return await query.CountAsync();
     }
 
+
+    public async Task<int> GetHighestId(ISpecification<T> spec)
+    {
+        return await context.Set<T>().MaxAsync(e => e.Id); 
+    }
+
+
     public bool Exists(int id)
     {
         return context.Set<T>().Any(x => x.Id == id);

@@ -23,7 +23,8 @@ export class CartService {
   totals = computed(() => {
     const cart = this.cart();
     if (!cart) return null
-    const subtotal = cart ? cart.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) : 0
+    var subtotal = cart ? cart.items.reduce((sum, item) => sum + (item.quantity * item.price), 0) : 0
+    subtotal = parseFloat(subtotal.toFixed(2));
     const shipping = this.shippingPrice();
     const discount = 0;
     
@@ -57,7 +58,7 @@ export class CartService {
   deleteCart(){
     return this.http.delete<boolean>(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
-        localStorage.removeItem("cart_id")
+        // localStorage.removeItem("cart_id")
         this.cart.set(null)
       }
     })
@@ -73,7 +74,7 @@ export class CartService {
   }
       // return this.http.post<Cart>(this.baseUrl + 'payment/setUpPayment/' + cart.id + '/' + this.accountService.currentUser()?.email, {}).pipe(
   setCart(cart:Cart, email:string | undefined){
-    console.log(email)
+    console.log
     return this.http.post<Cart>(this.baseUrl + 'cart' , {cart, email}).subscribe({
       next: cart => {
         this.cart.set(cart)
@@ -85,16 +86,12 @@ export class CartService {
   }
 
   addItemToCart(item: CartItem | Product, quantity = 1, email: string | undefined){
-    console.log(item)
+
     const cart = this.cart() ?? this.createCart()
-    console.log(cart)
     if (this.isProduct(item)){
       item = this.mapProductToCartItem(item);
-      console.log(item)
     }
-
     cart.items = this.addOrUpdateItem(cart.items, item, quantity)
-    console.log(cart)
     // if (!email) {this.cart.set(cart); return }// this is here in order to prevent an API call and create a new cart on the backend. once the user logs in, the cart will be created
     this.setCart(cart, email)
   }
@@ -109,7 +106,7 @@ export class CartService {
       items.push(item)
     }
     else{
-      items[index].quantity += quantity;
+      items[index].quantity = quantity;
     }
     return items
   }
@@ -130,7 +127,7 @@ export class CartService {
     return (item as Product).id !== 0
   }
 
-  private createCart(){
+   createCart(){
     const cart = new Cart();
     localStorage.setItem('cart_id', cart.id)
     return cart

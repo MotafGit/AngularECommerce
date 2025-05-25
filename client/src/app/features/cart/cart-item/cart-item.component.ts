@@ -22,14 +22,14 @@ export class CartItemComponent {
 
 
   incrementQuantity(item: CartItem){
-    this.cartService.addItemToCart(item, 1, undefined)
+    this.cartService.addItemToCart(item, item.quantity + 1, undefined)
   }
 
   decrementQuantity(){
-    this.cartService.removeItemsFromCart(this.item().productId)
+    this.cartService.removeItemsFromCart(this.item().productId!)
   }
 
   removeProduct(){
-    this.cartService.removeItemsFromCart(this.item().productId, this.item().quantity)
+    this.cartService.removeItemsFromCart(this.item().productId!, this.item().quantity)
   }
 }

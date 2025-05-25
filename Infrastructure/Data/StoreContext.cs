@@ -25,6 +25,19 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+         modelBuilder.Entity<CartItem>()
+            .Property(c => c.Price)
+            .HasColumnType("decimal(18,2)");
+
+        modelBuilder.Entity<Payment>()
+            .Property(p => p.TotalPrice)
+            .HasColumnType("decimal(18,2)");
+
+        modelBuilder.Entity<ShoppingCart>()
+            .Property(s => s.Total)
+            .HasColumnType("decimal(18,2)");
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ProductConfiguration).Assembly);
     }
 

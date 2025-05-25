@@ -40,24 +40,39 @@ export class LoginComponent {
   })
 
   onSubmit(){
-    console.log(this.loginForm.value)
-    console.log(this.cartService.cart())
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
         this.accountService.getUserInfo().subscribe({
           next: currentUser => {
-            console.log(currentUser)
             var currentCartId = currentUser.cartID
-            console.log(currentCartId)
             if (currentCartId) // if logged user already has a cart, retrieve the cart
             {
+              console.log("entra ca")
+              console.log(currentCartId)
+
               this.cartService.getCart(currentCartId).subscribe( cart => {
                 localStorage.setItem("cart_id", currentCartId!)
               })
             }
             else{ // otherwise create a new cart
-              console.log(this.cartService.cart())
-              this.cartService.setCart(this.cartService.cart()!, this.accountService.currentUser()?.email! )
+              console.log("entra ca123")
+              if (this.cartService.cart() == null)
+              {
+                  this.cartService.createCart();
+                  
+              }
+              else
+              {
+                const currentCart = this.cartService.cart();
+                if (currentCart) {
+                  this.cartService.cart.set({ ...currentCart, id: "0" });
+                }
+                this.cartService.setCart(this.cartService.cart()!, currentUser.email)
+              }
+              localStorage.setItem("cart_id", '0')
+
+
+             // this.cartService.setCart(this.cartService.cart()!, this.accountService.currentUser()?.email! )
                // localStorage.setItem("cart_id", this.cartService.cart()?.id!)
             }
             }
@@ -66,7 +81,6 @@ export class LoginComponent {
         this.router.navigateByUrl(this.returnUrl)
       }
     })
-    console.log(this.accountService.currentUser())
   }
  
 }

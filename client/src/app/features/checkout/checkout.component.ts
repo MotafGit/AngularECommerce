@@ -62,9 +62,7 @@ method: any;
 
 // }
 
-    teste(method: any){
-      console.log(method)
-    }
+
 
     UpdatePrice(price: number){
       this.cartService.shippingPrice.set(price)
@@ -88,7 +86,6 @@ method: any;
       });
     } 
     saveAddress(address: FormGroup){
-      console.log(address)
       
       if (JSON.stringify(this.aux) == JSON.stringify(address.value)) return
 

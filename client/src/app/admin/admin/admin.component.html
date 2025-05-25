@@ -1,1 +1,53 @@
-<p>admin works!</p>
+<div class="flex" style="margin-left: 0px!important; height: calc(100vh - 6rem);">
+    <div class="flex flex-col p-3 gap-3 border-gray-300  font-medium cursor-pointer" style="border-right-width: 2px; width: 280px;">
+        <div class="flex dashboardItems" (click)="selectedItem = 1" [ngClass]="{'activeItem': selectedItem === 1}" >
+            <span class="material-symbols-outlined self-center">dashboard</span>
+            <span class="pl-2"> Dashboard</span>
+        </div>
+        <div class="flex dashboardItems" (click)="selectedItem = 2" [ngClass]="{'activeItem': selectedItem === 2}">
+            <span class="material-symbols-outlined self-center">work</span>
+            <span class="pl-2"> Products</span>
+        </div>
+        <div class="flex dashboardItems" (click)="selectedItem = 3" [ngClass]="{'activeItem': selectedItem === 3}">
+            <span class="material-symbols-outlined self-center">group</span>
+            <span class="pl-2"> Users</span>
+        </div>
+        <div class="flex dashboardItems" (click)="selectedItem = 4" [ngClass]="{'activeItem': selectedItem === 4}">
+            <span class="material-symbols-outlined self-center">orders</span>
+            <span class="pl-2"> Orders</span>
+        </div>
+        <div class="flex dashboardItems" (click)="selectedItem = 5" [ngClass]="{'activeItem': selectedItem === 5}">
+            <span class="material-symbols-outlined self-center">shopping_cart</span>
+            <span class="pl-2"> Carts</span>
+        </div>
+    </div>
+    <div class="flex-grow w-full h-full bg-gray-50" style="height: calc(100vh - 6rem);">
+
+        @if(selectedItem === 1)
+        {   <div class="" style="">
+            <app-dashboard></app-dashboard>
+            </div>
+        }
+        @if(selectedItem === 2)
+        {   
+            <!-- height: calc(100vh - 6rem) -->
+            <div class="" style="">
+                <app-product></app-product>
+            </div>
+            
+        }
+        @if(selectedItem === 3)
+        {
+            <app-users></app-users>
+        }
+        @if(selectedItem === 4)
+        {
+            <app-orders></app-orders>
+        }
+        @if(selectedItem === 5)
+        {
+            <app-carts></app-carts>
+        }
+    </div>
+
+</div>

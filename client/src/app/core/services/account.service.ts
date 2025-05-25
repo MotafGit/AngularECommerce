@@ -17,7 +17,6 @@ export class AccountService {
 
   login (values: any){
     let params = new HttpParams()
-    console.log(values)
     params = params.append('useCookies', true)
     return this.http.post<User>(this.baseUrl + 'login', values, {params});
   }
@@ -40,9 +39,6 @@ export class AccountService {
   }
 
   saveOrupdateAddress(address: Address){
-    console.log("çlk")
-    console.log(address)
-
     return this.http.post(this.baseUrl + 'account/address', address).pipe(
       tap(() => {
         this.currentUser.update(user => {

@@ -1,0 +1,44 @@
+@media screen and (max-width: 600px) {
+    .itemPrice{
+       // width: auto!important;
+        padding-left:10px;
+    }
+    .cartItem{
+        flex-wrap: wrap;
+        //gap: 0;
+        justify-content: space-around;
+        width: 100%;
+
+    }
+
+    .qtAndPrice{
+        justify-content: space-around;
+        width: 100%;
+    }
+}
+
+.itemPrice{
+    width: 150px;
+    padding-left:10px;
+}
+
+.cartItem{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+}
+
+.urlAndName{
+    display: flex;
+   // justify-content: space-around;
+    width: 100%;
+
+}
+
+
+.qtAndPrice{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

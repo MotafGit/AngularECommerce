@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.Text.Json;
 using Core.Entities;
 
@@ -6,9 +7,14 @@ namespace Infrastructure.Data;
 
 public class StoreContextSeed
 {
+
+
     public static async Task SeedAsync (StoreContext context){
+
+    var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
         if (!context.Products.Any()){
-            var productsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/products.json");
+            var productsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/products.json");
 
             var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
@@ -21,7 +27,7 @@ public class StoreContextSeed
         
 
         if (!context.Delivery.Any()){
-            var deliveryData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+            var deliveryData = await File.ReadAllTextAsync(path + @"/Data/SeedData/delivery.json");
 
             var delivery = JsonSerializer.Deserialize<List<Delivery>>(deliveryData);
 
@@ -32,7 +38,7 @@ public class StoreContextSeed
             await context.SaveChangesAsync();                                                               
         }
         if (!context.PaymentTypes.Any()){
-            var paymentsData = await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/paymentTypes.json");
+            var paymentsData = await File.ReadAllTextAsync(path + @"/Data/SeedData/paymentTypes.json");
 
             var payment = JsonSerializer.Deserialize<List<PaymentType>>(paymentsData);
 

@@ -29,4 +29,6 @@ public interface IGenericRepository<T> where T : BaseEntity
 
     Task<int> CounterAsync(ISpecification<T> spec);
 
+    Task<int> GetHighestId(ISpecification<T> spec);
+
 }

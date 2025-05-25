@@ -29,9 +29,7 @@ import { CheckoutService } from '../../../core/services/checkout.service';
 export class PaymentTypesComponent implements OnInit{
     
   ngOnInit(): void {
-    console.log('yoyo')
     this.getPayments().subscribe();
-    console.log(this.paymentTypes)
   }
   baseUrl = environment.apiUrl
   private http = inject(HttpClient)
@@ -92,7 +90,6 @@ export class PaymentTypesComponent implements OnInit{
 // console.log(op);
 
    getPayments(){
-    console.log(this.paymentTypes)
    if (this.paymentTypes.length > 0) return of(this.paymentTypes)
     return this.http.get<PaymentType[]>(this.baseUrl + 'payment/paymentTypes').pipe(
       map ( (pt) => {
@@ -107,7 +104,6 @@ export class PaymentTypesComponent implements OnInit{
 
         });
       this.paymentTypes = mappedObj;
-      console.log(this.paymentTypes)
       return this.paymentTypes;
     })
 )}

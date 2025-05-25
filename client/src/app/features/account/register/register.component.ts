@@ -34,7 +34,6 @@ export class RegisterComponent {
     lastName: ['',Validators.required],
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-
   })
 
   onSubmit(){

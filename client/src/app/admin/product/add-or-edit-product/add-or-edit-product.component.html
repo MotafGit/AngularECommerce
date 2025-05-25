@@ -1,0 +1,92 @@
+<div>
+    <div class="text-2xl font-bold text-black">
+        Add new Product
+    </div>
+     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" >
+        <div class="flex flex-col">
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2">
+                <mat-label>name</mat-label>
+                <input formControlName="name" type="text" matInput >
+                <mat-error>name is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2" >
+                <mat-label>Description</mat-label>
+                <textarea formControlName="description" type="text" rows="4" matInput style="overflow-y: hidden!important" ></textarea>
+                <mat-error>Description is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2">
+                <mat-label>Price</mat-label>
+                <input formControlName="price" type="text" matInput >
+                <mat-error>Price is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2" >
+                <mat-label>Url</mat-label>
+                <input formControlName="pictureUrl" type="text" matInput placeholder="accepts https's .jpg .png .webp">
+                 @if(productForm.get('pictureUrl')?.hasError('required')){
+                  <mat-error>
+                    Url is required
+                    </mat-error>
+                 }
+                @if(productForm.get('pictureUrl')?.hasError('pattern')){
+                    <mat-error>
+                        enter a valid HTTPS URL jpg or png
+                    </mat-error>
+                }
+            </mat-form-field>
+
+            <mat-form-field class=" small mb-2" appearance="outline">
+            <mat-label class="mt-2">Type</mat-label>
+                <mat-select formControlName="type">
+                    @for (type of shopService.types; track $index) 
+                    {
+                        <mat-option value={{type}}>{{type}}</mat-option>
+                    }
+                </mat-select>
+                 <mat-error>Type is required</mat-error>
+            </mat-form-field>
+
+
+            <mat-form-field  class=" small mb-2" appearance="outline" >
+            <mat-label>Brand</mat-label>
+                <mat-select formControlName="brand" >
+                    @for (brand of shopService.brands; track $index) 
+                    {
+                        <mat-option value={{brand}}>{{brand}}</mat-option>
+                    }
+                </mat-select>
+                 <mat-error>Brand is required</mat-error>
+            </mat-form-field>
+            <mat-form-field  form-field appearance="outline" class="small mb-2">
+                <mat-label>Stock</mat-label>
+                <input formControlName="quantityInStock" type="text" matInput >
+                <mat-error>Stock is required</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex justify-between">
+            <div class="flex">
+            @if(productToEdit)
+            {
+                <button mat-stroked-button type="button" class="text-nowrap" (click)="clearUrl()">Clear URL</button>
+            }
+            @else 
+            {
+                  <button mat-stroked-button type="button" class="text-nowrap" (click)="clearFields()">Clear</button>
+            }
+            </div>
+            <div class="flex gap-2">
+                <!-- <button type="button" (click)="t()">debug</button> -->
+                <button mat-stroked-button type="button" class="text-black" (click)="closeDrawer()"> Close </button>
+                <button mat-stroked-button type="submit" class=" " [disabled]="productForm.invalid"> {{ this.productToEdit ? 'Edit' : 'Create' }}</button>
+            </div>
+        </div>
+
+        <div>
+            {{productForm.controls}}
+        </div>
+
+    </form>
+</div>

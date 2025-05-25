@@ -17,9 +17,17 @@ export class InitService {
       cartId = localStorage.getItem('cart_id')
     
 
-    
+    var cart$
    //const cartId = "1"
-    const cart$ = cartId ? this.cartService.getCart(cartId) : of(null)
+   if(cartId !== '0')
+   {
+       cart$ = cartId ? this.cartService.getCart(cartId) : of(null)
+   }
+   else{
+    cart$ = of(null)
+   }
+
+    
     
     return forkJoin({
       cart: cart$,

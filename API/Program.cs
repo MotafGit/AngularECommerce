@@ -9,6 +9,7 @@ using StackExchange.Redis;
 using Microsoft.Extensions.Options;
 using Infrastructure.Services;
 using Core.Entities;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,7 @@ builder.Services.AddDbContext<StoreContext>(opt =>
 builder.Services.AddScoped<IProductRepository,ProductRepository>();
 builder.Services.AddScoped<IPaymentService,PaymentService>();
 builder.Services.AddScoped<IPaymentRepository,PaymentRepository>();
-
+builder.Services.AddHttpClient();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddCors();
 builder.Services.AddSingleton<IConnectionMultiplexer>(config => {
@@ -45,6 +46,40 @@ var app = builder.Build();
 
 // app.UseExceptionHandler("/Error");
  app.UseMiddleware<ExceptionMiddleware>();
+ app.UseDefaultFiles();
+ app.UseStaticFiles();
+// var abc = Directory.GetParent(Directory.GetCurrentDirectory());
+// if(abc != null)
+// {
+// app.UseStaticFiles(new StaticFileOptions
+// {
+    
+//     FileProvider = new PhysicalFileProvider(
+        
+//         Path.Combine(abc.FullName, "client", "public", "images")),
+//     RequestPath = "/images",
+//         OnPrepareResponse = ctx =>
+//     {
+//         ctx.Context.Response.Headers.Append("Cache-Control", "no-cache, no-store, must-revalidate");
+//         ctx.Context.Response.Headers.Append("Pragma", "no-cache");
+//         ctx.Context.Response.Headers.Append("Expires", "0");
+//     }
+// });
+// }
+
+// app.UseStaticFiles(); // Serves files from wwwroot by default
+// // Or, if serving from a custom directory:
+// var abc = Directory.GetParent(Directory.GetCurrentDirectory());
+// if (abc != null)
+// {
+// app.UseStaticFiles(new StaticFileOptions
+// {
+//     FileProvider = new PhysicalFileProvider(
+//         Path.Combine(abc.FullName, "client", "public")
+//     ),
+//     RequestPath = "/"
+// });
+// }
 
 
 app.UseCors( x =>  x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
@@ -57,13 +92,14 @@ app.UseCors( x =>  x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
 // }
 
 // app.UseHttpsRedirection();
-
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllers();
 
 app.MapGroup("api").MapIdentityApi<AppUser>(); 
+app.MapFallbackToController("Index", "Fallback");
 
 try{
     using var scope = app.Services.CreateScope();

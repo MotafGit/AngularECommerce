@@ -1,5 +1,5 @@
 export type Product = {
-    id: number
+    id?: number 
     name: string
     description: string
     price: number
@@ -7,5 +7,6 @@ export type Product = {
     type: string
     brand: string
     quantity: number
+    quantityInStock: number
     isProduct: boolean
 }

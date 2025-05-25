@@ -1,11 +1,53 @@
+import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
+import { UsersComponent } from "../users/users.component";
+import { OrdersComponent } from "../orders/orders.component";
+import { CartComponent } from "../../features/cart/cart.component";
+import { ProductComponent } from "../product/product.component";
+import { DashboardComponent } from "../dashboard/dashboard.component";
+import { CartsComponent } from "../carts/carts.component";
 
 @Component({
   selector: 'app-admin',
-  imports: [],
+  imports: [
+    NgClass,
+    MatIcon,
+    UsersComponent,
+    OrdersComponent,
+    CartComponent,
+    ProductComponent,
+    DashboardComponent,
+    CartsComponent
+],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+
+  selectedItem: number = 1
+  selectedDashboard = 
+  [
+    {
+      name: 'DashBoard',
+      id: 1
+    },
+    {
+      name: 'Products',
+      id: 2
+    },
+    {
+      name: 'Users',
+      id: 3
+    },
+    {
+      name: 'Orders',
+      id: 4
+    },
+    {
+      name: 'Carts',
+      id: 5
+    },
+  ]
 
 }
