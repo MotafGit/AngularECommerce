@@ -5,26 +5,29 @@
     }
     .cartItem{
         flex-wrap: wrap;
-        //gap: 0;
+        gap: 0px!important;
         justify-content: space-around;
         width: 100%;
 
     }
 
     .qtAndPrice{
-        justify-content: space-around;
+      //  justify-content: space-around!important;
+      margin-top: 15px;
+     // margin-bottom: -15px;
         width: 100%;
     }
 }
 
 .itemPrice{
-    width: 150px;
+    max-width: 150px;
+    text-wrap: nowrap;
     padding-left:10px;
 }
 
 .cartItem{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     gap: 10px;
 }
@@ -32,7 +35,9 @@
 .urlAndName{
     display: flex;
    // justify-content: space-around;
-    width: 100%;
+    max-width: 400px;
+    flex-grow: 1;
+    gap:25px
 
 }
 
@@ -41,4 +46,5 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+ // min-width: 250px;
 }

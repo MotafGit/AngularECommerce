@@ -19,6 +19,10 @@ import { NgClass } from '@angular/common';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+    ngOnInit() {
+    // Redirect only on initial load
+    this.router.navigate(['/shop']);
+  }
   title = 'commerce web app';
   isSpecialComponent: any;
 

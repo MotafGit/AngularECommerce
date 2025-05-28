@@ -1,6 +1,7 @@
 using System;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
@@ -12,6 +13,13 @@ public class SpecificationEvaluator<T> where T : BaseEntity
         if(spec.Criteria!=null)
         {
             query = query.Where(spec.Criteria);
+
+
+                 foreach (var include in spec.Includes)
+                {
+                    query = query.Include(include);
+                }
+
         }
 
         if (spec.OrderBy != null){
@@ -40,6 +48,7 @@ public class SpecificationEvaluator<T> where T : BaseEntity
         if(spec.Criteria!=null)
         { 
             query = query.Where(spec.Criteria);
+           
         }
 
         if (spec.OrderBy != null){
@@ -49,6 +58,11 @@ public class SpecificationEvaluator<T> where T : BaseEntity
         if (spec.OrderByDescending != null){
             query = query.OrderByDescending(spec.OrderByDescending);
         }
+
+         foreach (var include in spec.Includes)
+                {
+                    query = query.Include(include);
+                }
         
         var selectQuery = query as IQueryable<TResult>;
 

@@ -10,13 +10,15 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.Formats.Webp;
+using Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController (IGenericRepository<Product> repo, IHttpClientFactory httpClientFactory) : BaseApiController
+public class ProductsController (IGenericRepository<Product> repo, IHttpClientFactory httpClientFactory, StoreContext context) : BaseApiController
 {
 
 
@@ -36,10 +38,22 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
         return await CreatePagedResult(repo, spec, specParams.PageIndex, specParams.PageSize);
     }
 
+    // [HttpGet("testa")]
+    // public async Task<ActionResult<Product>> GetProducts123( int id){
+    //     var result = context.Products
+    //         //.Where(p => new[] { 17, 27 }.Contains(p.TypeId))
+    //         .Where(p => p.TypeNavigation.TypeName.Contains("Jeans"))
+    //         // .Include(p => p.Type1) // assuming navigation property exists
+    //         // .ThenInclude(p => p.TypesType)
+    //         .ToList();
+    //         return   Ok(result);
+    // }
 
     [HttpGet("{id:int}")]
     public async Task<ActionResult<Product>> GetProduct( int id){
-        var product = await repo.GetByIdAsync(id);
+        var product = await repo.GetByIdAsyncWithIncludes( id,[ x => x.BrandNavigation, x => x.TypeNavigation]);
+
+        // var product = await repo.GetByIdAsync(id);
         
         if (product == null) return NotFound();
         return product;
@@ -54,6 +68,8 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
          var count = await repo.GetHighestId(spec);
          count++;
 
+        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg")))
+        {
         var client = httpClientFactory.CreateClient();
 
             // Download the image
@@ -68,11 +84,15 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
 
         await CropAndSaveImg(fileName, imageBytes);
 
-            product.PictureUrl = "/images/products/" + fileName;
+        product.PictureUrl = "/images/products/" + fileName;
+
+        }
 
         repo.Add(product);
         if (await repo.SaveAllAsync())
         {
+             await context.Entry(product).Reference(p => p.TypeNavigation).LoadAsync();
+             await context.Entry(product).Reference(p => p.BrandNavigation).LoadAsync();
             return CreatedAtAction("GetProduct", new{id = product.Id}, product);
         }
         return BadRequest("Problem creating product");
@@ -86,7 +106,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
         }
 
 
-        if (product.PictureUrl.Contains("http") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg")))
+        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg")))
         {
              var client = httpClientFactory.CreateClient();
 
@@ -99,13 +119,17 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
             product.PictureUrl = "/images/products/" + fileName;
         } 
 
-
+       
         repo.Update(product);
 
         if (await repo.SaveAllAsync())
         {
+              await context.Entry(product).Reference(p => p.TypeNavigation).LoadAsync();
+              await context.Entry(product).Reference(p => p.BrandNavigation).LoadAsync();
+
             return Ok(product);
         }
+
 
         return BadRequest("Problem updating product");
     }
@@ -163,7 +187,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
                 Directory.CreateDirectory(folderPath);
             }
             
-            var filePath = Path.Combine(folderPath, fileName);
+            //var filePath = Path.Combine(folderPath, fileName);
             var filePath2 = Path.Combine(wwwrootPath, fileName);
 
 
@@ -210,7 +234,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
                 var squaredImageBytes = ms.ToArray();
 
                 // Write the squared image bytes to disk
-                await System.IO.File.WriteAllBytesAsync(filePath, squaredImageBytes);
+               // await System.IO.File.WriteAllBytesAsync(filePath, squaredImageBytes);
                 await System.IO.File.WriteAllBytesAsync(filePath2, squaredImageBytes);
 
                 }

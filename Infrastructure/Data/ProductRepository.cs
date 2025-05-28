@@ -19,12 +19,17 @@ public class ProductRepository(StoreContext context) : IProductRepository
         context.Products.Remove(product);
     }
 
-    public async Task<IReadOnlyList<string>> GetBrandsAsync() 
+    public Task<IReadOnlyList<string>> GetBrandsAsync()
     {
-        return await context.Products.Select(z => z.Brand)
-        .Distinct()
-        .ToListAsync();
+        throw new NotImplementedException();
     }
+
+    // public async Task<IReadOnlyList<string>> GetBrandsAsync() 
+    // {
+    //     return await context.Products.Select(z => z.Brand)
+    //     .Distinct()
+    //     .ToListAsync();
+    // }
 
     public async Task<Product?> GetProduct(int id)
     {
@@ -39,12 +44,12 @@ public class ProductRepository(StoreContext context) : IProductRepository
     public async Task<IReadOnlyList<Product>> GetProducts(string? brands, string? type, string? sort)
     {
         IQueryable<Product>? query = null;
-        if (!string.IsNullOrWhiteSpace(brands)){
-            query = context.Products.Where(x => x.Brand == brands);
-        }
-        if (!string.IsNullOrWhiteSpace(type)){
-            query = context.Products.Where(x => x.Type == type);
-        }
+        // if (!string.IsNullOrWhiteSpace(brands)){
+        //     query = context.Products.Where(x => x.Brand == brands);
+        // }
+        // if (!string.IsNullOrWhiteSpace(type)){
+        //     query = context.Products.Where(x => x.Type == type);
+        // }
         if (string.IsNullOrWhiteSpace(brands) && string.IsNullOrWhiteSpace(type)){
             query = context.Products;
         }
@@ -65,12 +70,17 @@ public class ProductRepository(StoreContext context) : IProductRepository
         
     }
 
-    public async Task<IReadOnlyList<string>> GetTypesAsync()
+    public Task<IReadOnlyList<string>> GetTypesAsync()
     {
-        return await context.Products.Select(z => z.Type)
-        .Distinct()
-        .ToListAsync();
+        throw new NotImplementedException();
     }
+
+    // public async Task<IReadOnlyList<string>> GetTypesAsync()
+    // {
+    //     return await context.Products.Select(z => z.Type)
+    //     .Distinct()
+    //     .ToListAsync();
+    // }
 
     public bool ProductExists(int id)
     {
@@ -86,5 +96,6 @@ public class ProductRepository(StoreContext context) : IProductRepository
     {
         context.Entry(product).State = EntityState.Modified;
     }
+
 
 }

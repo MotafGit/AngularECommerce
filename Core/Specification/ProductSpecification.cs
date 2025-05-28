@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Core.Entities;
 
 namespace Core.Specification;
@@ -6,12 +7,21 @@ namespace Core.Specification;
 public class ProductSpecification : BaseSpecification<Product>
 {
     public ProductSpecification( ProductSpecParams specParams ) : base(x =>
-         (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
-        ( specParams.Brands.Count == 0 || specParams.Brands.Contains(x.Brand)) &&
-        ( specParams.Types.Count == 0  || specParams.Types.Contains(x.Type))
-       // (string.IsNullOrWhiteSpace(type) || x.Type.Contains(type))
+        (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
+        ( specParams.Brands.Count == 0  ||  specParams.Brands.Contains(x.BrandNavigation.BrandName)) &&
+        ( specParams.Types.Count == 0  ||  specParams.Types.Contains(x.TypeNavigation.TypeName)),
+        new List<Expression<Func<Product, object>>>() 
     )
     {
+        // working version, implement the right way when addinclude is needed
+        if(specParams.Includes.Count > 0){ 
+            foreach(var str in specParams.Includes)
+            {
+                var a = GenericExpression<Product>(str);
+                AddInclude(a);
+            }
+        }
+        
 
         ApplyPaging(specParams.PageSize * (specParams.PageIndex -1 ), specParams.PageSize);
         switch (specParams.Sort)

@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Core.Entities;
 
 namespace Core.Interfaces;
@@ -6,6 +7,9 @@ namespace Core.Interfaces;
 public interface IGenericRepository<T> where T : BaseEntity
 {
     Task<T?> GetByIdAsync(int id);
+
+    Task<T?> GetByIdAsyncWithIncludes(int id, Expression<Func<T, object>>[] includeExpressions);
+
 
     Task<IReadOnlyList<T>> ListAllAsync();
 
@@ -30,5 +34,7 @@ public interface IGenericRepository<T> where T : BaseEntity
     Task<int> CounterAsync(ISpecification<T> spec);
 
     Task<int> GetHighestId(ISpecification<T> spec);
+
+   
 
 }

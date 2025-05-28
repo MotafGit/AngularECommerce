@@ -1,44 +1,54 @@
-<div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm mb-4 m-4 ">
+<div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm mb-4 m-4 ">
+    <div class="flex">
+    <div class="cartItem flex-grow">
+            <div class="urlAndName">
+                <div class="">
+                    <a routerLink="/shop/{{item().productId}}" class="shrink ">
+                        <img src="{{item().pictureUrl}}" alt="productImg" class="h-20 w-20" style="border-radius: 10px;min-width: 100px">
+                    </a>
+                </div>
 
-    <div class="cartItem">
 
-        <div class="urlAndName">
-            <div>
-                <a routerLink="/shop/{{item().productId}}" class="shrink ">
-                    <img src="{{item().pictureUrl}}" alt="productImg" class="h-20 w-20">
-                </a>
-            </div>
+                <div class="content-center ">
+                    <a routerLink="/shop/{{item().productId}}" class="font-semibold">
+                        {{item().productName}}
+                    </a>
 
-
-            <div class=" ">
-                <a routerLink="/shop/{{item().productId}}" class="font-medium">
-                    {{item().productName}}
-                </a>
-
-                <div class="flex items-center gap-4">
-                    <button mat-button class="text-red-500" (click)="removeProduct()">
-                    <mat-icon>delete</mat-icon>
-                    Delete
-                    </button>
+                    <div class="flex items-center gap-4">
+                        <!-- <button mat-button class="text-red-500" (click)="removeProduct()">
+                        <mat-icon>delete</mat-icon>
+                        Delete
+                        </button> -->
+                        <div class="font-bold text-lg" style="color:rgb(37 99 235 )">
+                            {{item().price}} €
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
             <div class=" qtAndPrice ">
                 <div class="flex items-center align-middle gap-3">
-                    <button mat-icon-button (click)="decrementQuantity()">
+                    <button mat-icon-button (click)="decrementQuantity()" class="flex items-center justify-center border-1 border-gray-300  rounded-full w-8 h-8 cursor-pointer hover:bg-gray-100">
                         <mat-icon class="text-red-600">remove</mat-icon>
                     </button>
                     <div class="font-semibold text-xl mb-1">{{item().quantity}}</div>
 
-                    <button mat-icon-button (click)="incrementQuantity(item())">
+                    <button mat-icon-button (click)="incrementQuantity(item())" class="flex items-center justify-center border-1 border-gray-300  rounded-full w-8 h-8  cursor-pointer hover:bg-gray-100">
                         <mat-icon class="text-green-600">add</mat-icon>
                     </button>
                 </div>
-                <div class="text-end order-4 itemPrice">
-                    <p class="font-bold text-xl" >{{item().price}} €</p>
+                <div class="text-end  itemPrice ">
+                    <p class="font-bold text-xl w-20" >{{item().price * item().quantity}} €</p>
                 </div>
 
             </div>
+            <div></div>
+    </div >
+        <div class="pl-1 w-8 h-8 self-center items-center">
+            <button class="flex justify-center items-center w-8 h-8 text-red-500 align-middle cursor-pointer hover:bg-red-100 rounded-full" (click)="removeProduct()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
     </div>
+
 
 </div>

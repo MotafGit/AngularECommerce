@@ -86,8 +86,9 @@ export class CartService {
   }
 
   addItemToCart(item: CartItem | Product, quantity = 1, email: string | undefined){
-
+    console.log(email)
     const cart = this.cart() ?? this.createCart()
+    console.log(cart)
     if (this.isProduct(item)){
       item = this.mapProductToCartItem(item);
     }
@@ -97,6 +98,7 @@ export class CartService {
   }
 
   private addOrUpdateItem(items: CartItem[], item: CartItem , quantity: number): CartItem[] {
+    console.log('ipdate')
     const index = items.findIndex(x => x.productId === item.productId)
     if (quantity === 0 && index >= 0){
       items.splice(index, 1)
@@ -118,8 +120,10 @@ export class CartService {
       price: item.price,
       quantity: 0,
       pictureUrl: item.pictureUrl,
-      brand: item.brand,
-      type: item.type
+      brandId: item.brandId,
+      typeId: item.typeId,
+      brand: item.brandNavigation.brandName,
+      type: item.typeNavigation.typeName
     }
   }
 

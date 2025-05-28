@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
 import { UsersComponent } from "../users/users.component";
 import { OrdersComponent } from "../orders/orders.component";
@@ -7,6 +7,7 @@ import { CartComponent } from "../../features/cart/cart.component";
 import { ProductComponent } from "../product/product.component";
 import { DashboardComponent } from "../dashboard/dashboard.component";
 import { CartsComponent } from "../carts/carts.component";
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
   selector: 'app-admin',
@@ -24,6 +25,13 @@ import { CartsComponent } from "../carts/carts.component";
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+
+  @ViewChild(ProductComponent) drawer!: ProductComponent;
+
+  closeDrawer(){
+    
+    this.drawer?.drawer.toggle(false)
+  }
 
   selectedItem: number = 1
   selectedDashboard = 

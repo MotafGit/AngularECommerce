@@ -1,8 +1,14 @@
 <div>
-    <div class="text-2xl font-bold text-black">
-        Add new Product
+    <div class="flex p-4 border-b-1 border-black justify-between items-center">
+        <div class="text-2xl font-bold text-black ">
+            {{productToEdit ? "Edit" : "Add new"}}  Product
+        </div>
+        <button (click)="closeDrawer()" class="cursor-pointer p-1 hover:bg-gray-400 rounded-full" style="width:50px; height:50px">
+            <mat-icon class="align-middle">close</mat-icon>
+        </button>
     </div>
-     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" >
+
+     <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="p-4">
         <div class="flex flex-col">
 
             <mat-form-field  form-field appearance="outline" class="small mb-2">
@@ -40,10 +46,11 @@
 
             <mat-form-field class=" small mb-2" appearance="outline">
             <mat-label class="mt-2">Type</mat-label>
-                <mat-select formControlName="type">
-                    @for (type of shopService.types; track $index) 
+                <mat-select formControlName="typeId" >
+                    
+                    @for (type of allTypes; track type.id) 
                     {
-                        <mat-option value={{type}}>{{type}}</mat-option>
+                        <mat-option [value]="type.id">{{type.typeName}}</mat-option>
                     }
                 </mat-select>
                  <mat-error>Type is required</mat-error>
@@ -52,10 +59,10 @@
 
             <mat-form-field  class=" small mb-2" appearance="outline" >
             <mat-label>Brand</mat-label>
-                <mat-select formControlName="brand" >
-                    @for (brand of shopService.brands; track $index) 
+                <mat-select formControlName="brandId" >
+                    @for (brand of allBrands; track brand.id) 
                     {
-                        <mat-option value={{brand}}>{{brand}}</mat-option>
+                        <mat-option [value]="brand.id">{{brand.brandName}}</mat-option>
                     }
                 </mat-select>
                  <mat-error>Brand is required</mat-error>
@@ -83,10 +90,5 @@
                 <button mat-stroked-button type="submit" class=" " [disabled]="productForm.invalid"> {{ this.productToEdit ? 'Edit' : 'Create' }}</button>
             </div>
         </div>
-
-        <div>
-            {{productForm.controls}}
-        </div>
-
     </form>
 </div>

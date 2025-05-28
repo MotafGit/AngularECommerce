@@ -495,3 +495,4 @@ client/src/app/test-error/test-error.component.html
 client/src/app/test-error/test-error.component.scss
 client/src/app/test-error/test-error.component.ts
 API/wwwroot
+client/src/environments

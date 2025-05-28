@@ -44,43 +44,24 @@ public class CartService(IConnectionMultiplexer redis, UserManager<AppUser> user
         
         // var dd = JsonSerializer.Deserialize<ShoppingCart>(data!);
             var auxUser = new AppUser();
-        if (cart.Id.Equals("0") || cart.Id.Equals("null")){
-            var highestKey = await _database.SortedSetRangeByRankAsync("cart_timestamps", 0, -1, order: Order.Descending);
+            StackExchange.Redis.SortedSetEntry[]? scores = null;
+            bool created  = false;
+        if (cart.Id.Equals("0") || cart.Id.Equals("null") ){
+            var highestKey = await _database.SortedSetRangeByRankAsync("cart_timestamps", 0, 0, order: Order.Descending);
             if (highestKey.Length > 0)
             {
-                // var cartData = await _database.StringGetAsync(highestKey.First().ToString());
-                // if (cartData.HasValue)
-                // {
-                //      var cart1 = JsonSerializer.Deserialize<ShoppingCart>(cartData);
-                //     cart.Id = cart1.Id;
-                    
-                // }
-
 
                 var aux = highestKey.First().ToString();
                 var auxInt =  Convert.ToInt32(aux) + 1;
                 cart.Id = auxInt.ToString();
-                //var latestKey = highestKey[0];
                  var highestKeyAndScore = highestKey.First();
-                 // var highestKeyString = highestKeyAndScore.ToString();
-               // var cartData = await _database.StringGetAsync(highestKeyAndScore.ToString());
-                // if (cartData.HasValue)
-                // {
-                //      var cart1 = JsonSerializer.Deserialize<ShoppingCart>(cartData);
-                   
-                //    // var auxInt = Convert.ToInt32(cart1.Id) + 1;
-                //     //cart.Id = auxInt.ToString();
 
-                    
-                // }
-                // else{
-
-                // }
             }
             else
             {
                 cart.Id = "1";
             }
+            await _database.SortedSetAddAsync("cart_timestamps", cart.Id, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
         }
 
         if (!string.IsNullOrEmpty(email))
@@ -95,41 +76,32 @@ public class CartService(IConnectionMultiplexer redis, UserManager<AppUser> user
                 }
                 else{
                     cart.Id = auxUser.cartID!;
+                    // var getCart = GetCartAsync(cart.Id);
+                    // if (getCart.Result == null){
+                    //     scores = _database.SortedSetRangeByRankWithScores("cart_timestamps", 0, 0, Order.Ascending);
+                    //      await _database.SortedSetAddAsync("cart_timestamps", cart.Id, scores[0].Score - 1 );
+                    // }
                 }
             }
+             created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart), TimeSpan.FromDays(7));
+        }
+        else
+        {
+             created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart));
         }
 
-        var created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart));
+        // if(scores == null)
+        // {
+        //     await _database.SortedSetAddAsync("cart_timestamps", cart.Id, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+        // }
+        // else
+        // {
+        //     await _database.SortedSetAddAsync("cart_timestamps", cart.Id, scores[0].Score - 1 );
+        // }
         
 
-        // if(auxUser != null)
-        // {
-        //     auxUser.cartID = cart.Id;
-        //     await userManager.UpdateAsync(auxUser);
-        // }
+        // await _database.SortedSetAddAsync("cart_timestamps", cart.Id, 1);
 
-        //     public static async Task<AppUser> GetUserByEmail(this UserManager<AppUser> userManager, ClaimsPrincipal user){
-        // var userToReturn = await userManager.Users.FirstOrDefaultAsync( x => x.Email == user.GetEmail());
-
-        // if (userToReturn == null) throw new AuthenticationException("User was not found");
-
-        // return userToReturn;
-    
-
-        //   return new UserAddress
-        // {
-        //     Line1 = addressDto.Line1,
-        //     Line2 = addressDto.Line2,
-        //     City = addressDto.City,
-        //     District = addressDto.District,
-        //     Country = addressDto.Country,
-        //     PostalCode = addressDto.PostalCode
-        // };
-        // var res = await signInManager.UserManager.UpdateAsync(user);
-
-
-
-        await _database.SortedSetAddAsync("cart_timestamps", cart.Id, DateTimeOffset.UtcNow.ToUnixTimeSeconds());
 
         if (!created) return null;
 

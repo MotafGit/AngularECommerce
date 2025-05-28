@@ -4,9 +4,11 @@ export type Product = {
     description: string
     price: number
     pictureUrl: string
-    type: string
-    brand: string
+    typeId: number
+    brandId: number
     quantity: number
     quantityInStock: number
     isProduct: boolean
+    typeNavigation: any;
+    brandNavigation: any;
 }

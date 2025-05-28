@@ -1,15 +1,24 @@
 using System;
 using System.IO.Pipelines;
 using System.Linq.Expressions;
+using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specification;
 
-public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria) : ISpecification<T>
+public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expression<Func<T, object>>> includes ) : ISpecification<T> where T : class
 {
+    private Func<Product, bool> value;
 
-    protected BaseSpecification() : this(null){}
+
+
     public Expression<Func<T,bool>>? Criteria => criteria;
+
+     public List<Expression<Func<T, object>>>? Includes  => includes ?? new List<Expression<Func<T, object>>>();
+
+
+
 
      public Expression<Func<T,object>>? OrderBy {get; private set;}
 
@@ -24,11 +33,29 @@ public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria) : ISpecifi
 
     public bool IsPagingEnabled  {get; private set;}
 
+
+
+    public Expression<Func<T, object>> GenericExpression<T>( string navigation)
+    {
+        var parameter = Expression.Parameter(typeof(T), "x");
+        var property = Expression.PropertyOrField(parameter, navigation);
+        var conversion = Expression.Convert(property, typeof(object));
+        return Expression.Lambda<Func<T, object>>(property, parameter);
+       // return Expression.Lambda<Func<T, object>>(property, parameter);
+    }
+
     public IQueryable<T> ApplyCriteria(IQueryable<T> query)
     {
         if (Criteria != null)
         {
          query = query.Where(Criteria);
+        }
+        if (Includes != null && Includes.Any())
+        {
+            foreach (var include in Includes)
+            {
+                query = query.Include(include);
+            }
         }
         return query;
     }
@@ -38,34 +65,56 @@ public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria) : ISpecifi
         OrderBy = orderByExpression;
      }
 
-      protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression){
+    protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression){
 
-        OrderByDescending = orderByDescExpression;
-     }
+    OrderByDescending = orderByDescExpression;
+    }
 
      protected void ApplyDistinct()
      {
          isDistinct = true;
      }
 
-      protected void ApplyPaging (int skip, int take)
-      {
-         Skip = skip;
-         Take = take;
-         IsPagingEnabled = true;
-      }
+    protected void ApplyPaging (int skip, int take)
+    {
+        Skip = skip;
+        Take = take;
+        IsPagingEnabled = true;
+    }
+
+    protected void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+    Includes.Add(includeExpression);
+    }
+
+
 
 }
 
 
-public class BaseSpecification<T,Tresult>(Expression <Func<T,bool>> criteria) : BaseSpecification <T>(criteria), ISpecification<T, Tresult>
+public class BaseSpecification<T,Tresult>(Expression <Func<T,bool>> criteria, List<Expression<Func<T, object>>> includes ) : BaseSpecification <T>(criteria, includes ?? new List<Expression<Func<T, object>>>()), ISpecification<T, Tresult> where T : class
 {
 
-    protected BaseSpecification() : this(null!){}
-   public Expression<Func<T,Tresult>>? Select {get; private set;}
+
+   protected BaseSpecification() : this(null!, new List<Expression<Func<T, object>>>()){}
+
+
+
+    public Expression<Func<T,Tresult>>? Select {get; private set;}
+
+    public Expression<Func<T,object>>? Include {get; private set;}
+
+
+    public List<Expression<Func<T, object>>> Includes { get; private set; } = new List<Expression<Func<T, object>>>();
 
    protected void AddSelect(Expression<Func<T,Tresult>> selectExpression){
       Select = selectExpression;
    }
+   
+    protected void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+        Include = includeExpression;
+        Includes.Add(includeExpression);
+    }
 
 }

@@ -1,4 +1,5 @@
 using System;
+using Core.Entities;
 
 namespace Core.Specification;
 
@@ -24,6 +25,53 @@ public class ProductSpecParams
                 StringSplitOptions.RemoveEmptyEntries)).ToList();
         }
     }
+
+
+    private List<string> _Typess = [];
+    public List<string>  Typess
+    {
+        get => _Typess;
+        set
+    {
+         _Typess = value.SelectMany(x => x.Split(',',
+        StringSplitOptions.RemoveEmptyEntries)).ToList();
+
+    }
+    }
+
+
+    private List<string> _Includes = [];
+    public List<string>  Includes
+    {
+        get => _Includes;
+        set
+    {
+         _Includes = value.SelectMany(x => x.Split(',',
+        StringSplitOptions.RemoveEmptyEntries)).ToList();
+
+    }
+    }
+
+//      private List<int> _brands = [];
+
+// public List<int> Brands
+// {
+//     get => _brands;
+//     set
+//     {
+//         _brands = value
+//             .SelectMany(x => x.Split(',', StringSplitOptions.RemoveEmptyEntries))
+//             .Select(int.Parse)
+//             .ToList();
+//     }
+// }
+  
+
+
+
+
+
+
 
     private List<string> _types = [];
     public List<string>  Types

@@ -34,6 +34,9 @@ export class ShopService {
     if(shopParams.sort){
       params = params.append('sort', shopParams.sort);
     }
+    if (shopParams.includes){
+      params = params.append('includes', shopParams.includes)
+    }
     params = params.append('pageSize', shopParams.pageSize);
     params = params.append('pageIndex', shopParams.pageNumber);
 
@@ -43,6 +46,14 @@ export class ShopService {
 
   getProduct (id: number) {
       return this.http.get<Product>(this.baseUrl + 'products/' + id)
+  }
+
+  getAllBrands(){
+    return this.http.get<string[]>(this.baseUrl + 'brands');
+  }
+
+  getAllTypes(){
+    return this.http.get<string[]>(this.baseUrl + 'types');
   }
 
   getBrands(){

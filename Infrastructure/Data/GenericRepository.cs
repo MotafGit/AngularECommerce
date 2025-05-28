@@ -1,4 +1,5 @@
 using System;
+using System.Linq.Expressions;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +39,18 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         return await context.Set<T>().FindAsync(id);
     }
 
+        public  async Task<T?> GetByIdAsyncWithIncludes(int id, params Expression<Func<T, object>>[] includeExpressions)
+    {
+        IQueryable<T> query = context.Set<T>();
+        
+        foreach (var includeExpression in includeExpressions)
+        {
+        query = query.Include(includeExpression);
+        }
+
+        return await query.FirstOrDefaultAsync(e => EF.Property<int>(e, "Id") == id);
+    }
+
     public async Task<T?> GetEntityWithSpec(ISpecification<T> spec)
     {
         return await ApplySpecification(spec).FirstOrDefaultAsync();
@@ -74,8 +87,16 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public void Update(T entity)
     {
-         context.Set<T>().Attach(entity);
-         context.Entry(entity).State = EntityState.Modified;
+        var existingEntity = context.Set<T>().Find(entity.Id);
+        if (existingEntity != null)
+        {
+            context.Entry(existingEntity).State = EntityState.Modified;
+            context.Entry(existingEntity).CurrentValues.SetValues(entity);
+            
+        }
+
+        //  context.Set<T>().Attach(entity);
+        //  context.Entry(entity).State = EntityState.Modified;
 
     }
 
@@ -86,7 +107,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
     }
 
 
-        private IQueryable<TResult>ApplySpecification<TResult>(ISpecification<T,TResult> spec)
+    private IQueryable<TResult>ApplySpecification<TResult>(ISpecification<T,TResult> spec)
     {
         return SpecificationEvaluator<T>.GetQuery<T,TResult>(context.Set<T>().AsQueryable(), spec);
     }

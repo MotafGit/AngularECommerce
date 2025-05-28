@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, inject, Input, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, inject, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatError, MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { TextInputComponent } from "../../../shared/components/text-input/text-input.component";
@@ -28,7 +28,24 @@ import { MatOption, MatSelect } from '@angular/material/select';
   templateUrl: './add-or-edit-product.component.html',
   styleUrl: './add-or-edit-product.component.scss'
 })
-export class AddOrEditProductComponent {
+export class AddOrEditProductComponent  implements OnInit {
+  ngOnInit(): void {
+    // if(this.shopService.types.length === 0){
+    //   this.shopService.getTypes()
+    //    console.log(this.shopService.types)
+    // }
+    this.shopService.getAllBrands().subscribe({
+      next: response =>{
+         this.allBrands = response
+      }
+    })
+    this.shopService.getAllTypes().subscribe({
+      next: response =>{
+         this.allTypes = response
+      }
+    })
+  }
+  
   private http = inject(HttpClient)
   shopService = inject(ShopService)
   @Input() productToEdit?: Product
@@ -36,6 +53,8 @@ export class AddOrEditProductComponent {
   @Output() createOrUpdateProductReactive = new EventEmitter<{ product: Product; action: string }>();
   @ViewChild('canvas', { static: false }) canvasRef!: ElementRef<HTMLCanvasElement>;
   pictureUrldisabled = true
+  allBrands: any;
+  allTypes: any;
 
 
 
@@ -46,10 +65,12 @@ export class AddOrEditProductComponent {
     description: ['',Validators.required],
     price: [0.1, [Validators.required]],
     pictureUrl: ['', [Validators.required, Validators.pattern(/^https:\/\/.*\.(jpg|jpeg|png)$/i)]],
-    type: ['', Validators.required],
-    brand: ['', Validators.required],
+    typeId: [0, Validators.required],
+    brandId: [0, Validators.required],
     quantityInStock: [0, Validators.required],
-    isProduct: true
+    isProduct: true,
+    typeNavigation: null ,
+    brandNavigation: null
   })
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,10 +82,12 @@ export class AddOrEditProductComponent {
         description: '',
         price: 0.1,
         pictureUrl: '',
-        type: '',
-        brand: '',
+        typeId: 0,
+        brandId: 0,
         quantityInStock: 0,
-        isProduct: true
+        isProduct: true,
+        typeNavigation: null ,
+        brandNavigation: null
       });
        this.productForm.get('pictureUrl')?.enable()
         this.updateValidator() 
@@ -73,16 +96,19 @@ export class AddOrEditProductComponent {
     }
    
     if (changes['productToEdit']) {
+      console.log(this.productToEdit)
       this.productForm.patchValue({
       id: this.productToEdit.id,
       name: this.productToEdit.name,
       description: this.productToEdit.description,
       price: this.productToEdit.price,
       pictureUrl: this.productToEdit.pictureUrl,
-      type: this.productToEdit.type,
-      brand: this.productToEdit.brand,
+      typeId: this.productToEdit.typeId,
+      brandId: this.productToEdit.brandId,
       quantityInStock: this.productToEdit.quantityInStock,
-      isProduct: true
+      isProduct: true,
+      typeNavigation: this.productToEdit.typeNavigation,
+      brandNavigation: this.productToEdit.brandNavigation,
     });
       this.productForm.get('pictureUrl')?.disable()
       this.updateValidator() 
@@ -122,8 +148,8 @@ export class AddOrEditProductComponent {
         description: '',
         price: 0,
         pictureUrl: '',
-        type: '',
-        brand: '',
+        typeId: null,
+        brandId: null,
         quantityInStock: 0,
         isProduct: true
       });
@@ -149,6 +175,7 @@ export class AddOrEditProductComponent {
    onSubmit(){
     
     const product = this.productForm.getRawValue() as Product;
+    console.log(product)
       if(!this.productToEdit)
       {
         this.shopService.createProduct(product).subscribe({

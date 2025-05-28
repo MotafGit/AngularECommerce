@@ -1,10 +1,27 @@
-// @media screen and (max-width: 500px) {
-    
-//     .shopGrid{
-//         display: block !important;
-//         grid-template-columns: none !important;
-//     }
 
-// }
+
+@media screen and (max-width: 760px) {
+    
+    .clearFilterDiv{
+        width:100%
+    }
+    .blackToWhiteButton{
+        width: 100%;
+    }
+
+     .whiteToBlackButton{
+        width: 100%;
+    }
+
+    .closeOrApplyFiltersDiv{
+        flex-direction: column!important;
+        padding-top: 10px;
+        width: 100%;
+    }
+
+    
+}
+
+
 
 

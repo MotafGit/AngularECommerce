@@ -13,6 +13,9 @@ public class CartItem : BaseEntity
     public int Quantity { get; set; }
 
     public required string PictureUrl { get; set; }
+    public int BrandId { get; set; }
+
+    public int TypeId { get; set; }
 
     public required string Brand { get; set; }
 

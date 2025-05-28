@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { ShopService } from '../../core/services/shop.service';
 import { Product } from '../../models/product';
 import { MatCard } from '@angular/material/card';
@@ -18,8 +18,9 @@ import { Pagination } from '../../models/pagination';
 import { FormsModule } from '@angular/forms';
 import { BusyService } from '../../core/services/busy.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
-
-
+import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
 @Component({
   selector: 'app-shop',
   imports: [
@@ -32,14 +33,22 @@ import { MatProgressBar } from '@angular/material/progress-bar';
     MatMenuTrigger,
     MatPaginator,
     FormsModule,
+    MatDrawer,
+    MatDrawerContainer,
+    MatGridListModule,
+    MatCheckboxModule,
+    MatCard
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit {
-  private shopService = inject (ShopService)
+  shopService = inject (ShopService)
   private dialogService = inject(MatDialog)
   busyService = inject(BusyService);
+  selectedBrands: string[] = []
+  selectedTypes: string[] = []
+   @ViewChild('drawer') drawer!: MatDrawer;
 
   products?: Pagination<Product>;
   sortOptions = 
@@ -80,6 +89,7 @@ export class ShopComponent implements OnInit {
     this.shopParams.pageNumber = event.pageIndex + 1
     this.shopParams.pageSize = event.pageSize
     this.getProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   onSortChange(event: MatSelectionListChange){
@@ -88,6 +98,52 @@ export class ShopComponent implements OnInit {
       this.shopParams.sort = selectedOption.value;
       this.getProducts();
     }
+  }
+
+  testeFilters()
+  {
+    this.drawer.toggle()
+  }
+
+  onCheckboxBrandChange(event: MatCheckboxChange, brand: string) {
+    console.log(this.selectedBrands)
+  if (event.checked) {
+    this.selectedBrands.push(brand);
+  } else {
+    const index = this.selectedBrands.indexOf(brand);
+    if (index >= 0) {
+      this.selectedBrands.splice(index, 1);
+    }
+  }
+}
+
+  onCheckboxTypeChange(event: MatCheckboxChange, type: string) {
+
+  if (event.checked) {
+    this.selectedTypes.push(type);
+  } else {
+    const index = this.selectedTypes.indexOf(type);
+    if (index >= 0) {
+      this.selectedTypes.splice(index, 1);
+    }
+  }
+}
+
+
+  applyFilters(){
+    if (this.selectedBrands.length > 0 || this.selectedTypes.length > 0)
+    {
+          this.shopParams.brands = this.selectedBrands;
+          this.shopParams.types = this.selectedTypes;
+          this.shopParams.pageNumber = 1
+          this.getProducts();
+          this.drawer.toggle(false)
+    }
+  }
+
+  clearFilters(){
+    this.selectedBrands=[];
+    this.selectedTypes=[];
   }
 
   openFiltersDialog(){
@@ -99,6 +155,9 @@ export class ShopComponent implements OnInit {
 
       }
     });
+
+
+
     dialogRef.afterClosed().subscribe({
       next: result => {
         if (result) {

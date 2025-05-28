@@ -1,4 +1,7 @@
+
+
 export const environment = {
-    production: false,
-    apiUrl: 'api/'
+    production: true,
+    apiUrl: 'api/',
+    email: 'motafilipe120@gmail.com',
 };

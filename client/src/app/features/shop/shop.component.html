@@ -1,32 +1,141 @@
+    <!-- <div class="flex p-4 border-b-1 border-black justify-between items-center">
+        <div class="text-2xl font-bold text-black ">
+            {{productToEdit ? "Edit" : "Add new"}}  Product
+        </div>
+        <button (click)="closeDrawer()" class="cursor-pointer p-1 hover:bg-gray-400 rounded-full" style="width:50px; height:50px">
+            <mat-icon class="align-middle">close</mat-icon>
+        </button>
+    </div> -->
+
+
+    
+
 @if(products)
 {
-    
+<mat-drawer-container class="p-3 bg-white" style="height: 100%;margin-inline: unset!important;"  >
+  <mat-drawer #drawer class="border-1 border-black mt-20"  mode="over" position="end" style="width: 60%; min-width: 350px;position: fixed; ">
+    <div class="flex flex-col" style="height: 99%;">
+        <div class="flex p-4 justify-between items-center">
+            <div class="text-2xl font-bold text-black ">
+                Filters
+            </div>
+            <button (click)="this.drawer.toggle(false)" class="cursor-pointer p-1 hover:bg-gray-400 rounded-full" style="width:50px; height:50px">
+                <mat-icon class="align-middle">close</mat-icon>
+            </button>
+        </div>
+        <div class="border-b border-black w-full my-0 p-0"></div>
+        <div class="m-4">
+            <mat-card class="p-3">
+                <div class="font-bold">
+                    Brands
+                </div>
+                 <div class="flex flex-wrap" >
+                @for ( brand of shopService.brands; track $index){
+                    <div style="min-width: 125px" >
+                        <mat-checkbox  
+                        (change)="onCheckboxBrandChange($event, brand)"
+                        [checked]="selectedBrands.includes(brand)">
+                            {{brand}}
+                        </mat-checkbox>
+                    </div>
+                }
+                </div>
+
+            </mat-card>
+        </div>
+        <div class="m-4">
+            <mat-card class="p-3">
+                <div class="font-bold">
+                    Types
+                </div>
+                 <div class="flex flex-wrap" >
+                @for ( type of shopService.types; track $index){
+                    <div style="min-width: 125px" >
+                        <mat-checkbox  
+                        (change)="onCheckboxTypeChange($event, type)"
+                        [checked]="selectedTypes.includes(type)">
+                            {{type}}
+                        </mat-checkbox>
+                    </div>
+                }
+                </div>
+
+            </mat-card>
+        </div>
+        <div class="flex flex-grow-1 m-4">
+            <div class="flex justify-between w-full self-end flex-wrap">
+                <div class="clearFilterDiv">
+                    <button mat-stroked-button class="blackToWhiteButton" (click)="clearFilters()">
+                        Clear Filters
+                    </button>
+                </div>
+                <div class="flex gap-2 closeOrApplyFiltersDiv">
+                    <div>
+                        <button mat-stroked-button class="whiteToBlackButton" (click)="drawer.toggle()"> 
+                            Close
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-stroked-button class="blackToWhiteButton" (click)="applyFilters()">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </mat-drawer>
+
 <div class="flex flex-col gap-3 p-4 pt-2">
-    <div class="flex gap-3 justify-between items-center">
-       
-        <form #searchForm="ngForm"
-            (ngSubmit)="onSearchChange()"
-            class="relative flex items-center w-full max-w-md mx-4"
-        >
-            <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
-                placeholder="Search"
-                name="search"
-                [(ngModel)]="shopParams.search"
-            />
-            <button mat-icon-button type="submit"
-                class="absolute inset-y-0 right-8 top-1 flex items-center pl-3"
-            >
-            <mat-icon>search</mat-icon>
-        </button>
-        </form>
-        <div class="flex gap-3">
-            <button mat-stroked-button (click)="openFiltersDialog()">
+    <div class="flex gap-3 justify-between items-center flex-wrap md:flex-nowrap">
+       <div class="flex gap-3">
+            <button mat-stroked-button (click)="testeFilters()">
                 <mat-icon>filter_list</mat-icon> Filters
             </button>
+            <!-- <button mat-stroked-button (click)="openFiltersDialog()">
+                <mat-icon>filter_list</mat-icon> Filters
+            </button> -->
             <button mat-stroked-button [mat-menu-trigger-for]="sortMenu">
                 <mat-icon>swap_vert</mat-icon> Sort
             </button>
         </div>
+        <!-- <form #searchForm="ngForm"
+            (ngSubmit)="onSearchChange()"
+            class="relative flex shrink items-center" style=" min-width: 250px;width: 900px;"
+        >
+        <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
+            placeholder="Search"
+            name="search"
+            [(ngModel)]="shopParams.search"
+        />
+        <button mat-icon-button type="submit"
+            class="absolute inset-y-0 right-8 top-1 flex items-center pl-3"
+        >
+        <mat-icon>search</mat-icon>
+        </button>
+        </form> -->
+            <div style="" class="text-nowrap">
+                Showing {{shopParams.pageNumber==1 ? 1 : (shopParams.pageNumber - 1) * shopParams.pageSize + 1 }} 
+                - {{products.count>shopParams.pageNumber * shopParams.pageSize  ? shopParams.pageNumber * shopParams.pageSize : products.count}}
+                 of {{products.count}} products
+            </div>
+    </div>
+    <div>
+           <form #searchForm="ngForm"
+            (ngSubmit)="onSearchChange()"
+            class="relative flex shrink items-center" style=" min-width: 250px"
+        >
+        <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
+            placeholder="Search"
+            name="search"
+            [(ngModel)]="shopParams.search"
+        />
+        <button mat-icon-button type="submit"
+            class="absolute inset-y-0 right-8 top-1 flex items-center pl-3 pb-1"
+        >
+        <mat-icon>search</mat-icon>
+        </button>
+        </form>
     </div>
         <div class="grid max-[500px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 shopGrid ">
         @for (product of products.data; track product.id){
@@ -36,7 +145,7 @@
     <div>
          <mat-paginator
             class = "bg-white"
-            (page)="handlePageEvent($event)"
+            (page)="handlePageEvent($event);"
             [length]="products.count"
             [pageSize]="shopParams.pageSize"
             [showFirstLastButtons]="true"
@@ -57,7 +166,13 @@
         }
     </mat-selection-list>
 </mat-menu>
+</mat-drawer-container>
 }
+
+
+
+
+
 
 
 

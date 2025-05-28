@@ -16,8 +16,19 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
 
     public DbSet<Payment> Payment { get; set; }
 
-
     public DbSet<PaymentType> PaymentTypes { get; set; }
+
+    public DbSet<Brands> Brands { get; set; }
+
+    public DbSet<BrandsTypes> BrandsTypes { get; set; }
+
+
+    public DbSet<Types> Types { get; set; }
+
+    public DbSet<TypesType> TypesType { get; set; }
+
+
+
 
 
 

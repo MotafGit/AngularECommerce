@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -34,9 +34,9 @@ export class ProductComponent implements OnInit {
     //   this.shopService.getTypes()
     //    console.log(this.shopService.types)
     // }
-    this.shopService.getBrands();
-    this.shopService.getTypes();
     this.shopParams.sort = "orderByIdDesc"
+    this.shopParams.includes = "TypeNavigation,BrandNavigation"
+
     this.shopService.getProducts(this.shopParams).subscribe({
       next: items =>{
          this.tableProducts = items
@@ -53,9 +53,19 @@ export class ProductComponent implements OnInit {
   pageSizeOptions = [10, 20, 50]
   search: string = ''
   onSearchChange(){
+    this.shopParams.pageNumber = 1
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: items =>{
+      this.tableProducts = items
+      }
+    })
   }
  @ViewChild('drawer') drawer!: MatDrawer;
 
+//  closeDrawer(true){
+//     console.log('bla')
+//     this.drawer.toggle()
+//   }
   edit(object: any){
     this.productToEdit = object
     this.drawer.toggle()
@@ -68,13 +78,16 @@ export class ProductComponent implements OnInit {
 
   createOrUpdateProductReactive(event: { product: Product; action: string }){
     if (this.tableProducts?.data) {
+    console.log(event.product)
     
     
-
     if (event.action === 'updated') // update product
     {   
       var index = this.tableProducts.data.findIndex(x => x.id === event.product.id)
       if (index != -1) {
+        // if (event.product.typeId !== event.product.typeNavigation.id){
+        //   event.product.typeNavigation.typeName = 'testa'
+        // }
         var data = this.tableProducts.data
         data[index] = event.product
         this.tableProducts.data = [... data]
@@ -83,7 +96,6 @@ export class ProductComponent implements OnInit {
     }
     else
     {
-      event.product.pictureUrl = "https://localhost:4200/images/products/teste1326.png"
       this.tableProducts.data = [...this.tableProducts.data, event.product]
       this.tableProducts.data.sort((a, b) => b.id! - a.id!);
       //this.tableProducts.data = [... data]
@@ -96,6 +108,8 @@ export class ProductComponent implements OnInit {
 
   }
 }
+
+
 
   handleProductTablePageEvent(event: PageEvent){
     this.shopParams.pageNumber = event.pageIndex + 1

@@ -1,7 +1,7 @@
 
 
    <mat-drawer-container class="p-3 bg-gray-50 " style="height: calc(100vh - 6rem);"  >
-        <mat-drawer #drawer class="p-4 bg-gray-200 " style="max-width:600px ; min-width: 350px; width:50%!important;height: calc(100vh - 7rem);" mode="over" position="end">
+        <mat-drawer #drawer class="border-1 border-black " style="max-width:600px ; min-width: 350px; width:60%!important;" mode="over" position="end">
         
             <app-add-or-edit-product 
             [productToEdit]="productToEdit" 
@@ -30,10 +30,10 @@
             <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
                 placeholder="Search"
                 name="search"
-                [(ngModel)]="search"
+                 [(ngModel)]="shopParams.search"
             />
             <button mat-icon-button type="submit"
-                class="absolute inset-y-0 right-8 top-1 flex items-center pl-3"
+                class="absolute inset-y-0 right-8 top-1 flex items-center pl-3 pb-1"
             >
             <mat-icon>search</mat-icon>
         </button>
@@ -70,13 +70,13 @@
 
             <ng-container matColumnDef="type">
                 <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+                <mat-cell *matCellDef="let element"> {{element.typeNavigation.typeName}} </mat-cell>
             </ng-container>
 
 
             <ng-container matColumnDef="brand">
                 <mat-header-cell *matHeaderCellDef> Brand </mat-header-cell>
-                <mat-cell *matCellDef="let element"> {{element.brand}} </mat-cell>
+                <mat-cell *matCellDef="let element"> {{element.brandNavigation.brandName}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="edit">
