@@ -83,11 +83,12 @@ public class CartService(IConnectionMultiplexer redis, UserManager<AppUser> user
                     // }
                 }
             }
-             created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart), TimeSpan.FromDays(7));
+             created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart));
         }
         else
         {
-             created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart));
+            created = await _database.StringSetAsync(cart.Id, JsonSerializer.Serialize(cart), TimeSpan.FromDays(7));
+             
         }
 
         // if(scores == null)

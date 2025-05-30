@@ -68,7 +68,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
          var count = await repo.GetHighestId(spec);
          count++;
 
-        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg")))
+        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg") || product.PictureUrl.Contains(".webp") ))
         {
         var client = httpClientFactory.CreateClient();
 
@@ -106,7 +106,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
         }
 
 
-        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg")))
+        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg") || product.PictureUrl.Contains(".webp")))
         {
              var client = httpClientFactory.CreateClient();
 

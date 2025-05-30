@@ -21,6 +21,7 @@ import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatDrawer, MatDrawerContainer } from '@angular/material/sidenav';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
+import { FooterComponent } from "../../layout/footer/footer.component";
 @Component({
   selector: 'app-shop',
   imports: [
@@ -37,7 +38,8 @@ import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
     MatDrawerContainer,
     MatGridListModule,
     MatCheckboxModule,
-    MatCard
+    MatCard,
+    FooterComponent
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'

@@ -1,7 +1,7 @@
-<div class="flex mt-4 gap-6 justify-center checkout">
+<div class="flex mt-4 gap-6 justify-center checkout" style="min-height: calc(100vh - 100px);">
     <div class="w-3/4 m-4 loginForm">
-        <mat-stepper #stepper class="bg-white border border-gray-200 shadow-sm">
-            <mat-step label="Address">
+        <mat-stepper   #stepper class="bg-white border border-gray-200 shadow-sm" [linear]="true" (selectionChange)="onStepChange($event)" >
+            <mat-step [completed]="checkoutService.addressForm.valid" label="Address">
                <div class="mt-2">
                    <form [formGroup]="checkoutService.addressForm">
                             <app-text-input label="Full name" formControlName="fullName" />
@@ -23,7 +23,7 @@
                 </div>
             </mat-step>
 
-            <mat-step label="Shipping">
+            <mat-step [completed]="shippingMethodPicked == true" label="Shipping">
                 <div class="w-full" >
                     <mat-radio-group class="radioGroup" style="" >
                         @for (delivery of checkoutService.delivery; track delivery.id) {
@@ -63,11 +63,15 @@
     </div>
     <div class="flex-grow m-4" style="min-width: 300px;max-width: 918px;">
         <app-order-summary></app-order-summary>
+        @if (showPlaceOrder)
+        {
         <div class="pt-3">
             <button mat-flat-button class="rounded-md bg-black w-full">
                 Place Order
             </button>
         </div>
+        }
+        
     </div>
 
 

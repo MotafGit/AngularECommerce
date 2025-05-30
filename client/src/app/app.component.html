@@ -1,8 +1,10 @@
 
 <app-header></app-header>
 
-<div [ngClass]="{'no-margin': isSpecialComponent}" class="container pt-24" >
+<div [ngClass]="{'no-margin': isSpecialComponent || homeComponent, }" class="container" style="padding-top: 80px;" >
 
   <router-outlet></router-outlet>
 
 </div>
+
+<app-footer></app-footer>

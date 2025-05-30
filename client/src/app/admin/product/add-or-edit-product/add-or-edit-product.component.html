@@ -77,7 +77,7 @@
             <div class="flex">
             @if(productToEdit)
             {
-                <button mat-stroked-button type="button" class="text-nowrap" (click)="clearUrl()">Clear URL</button>
+                <button mat-stroked-button type="button" class="text-nowrap blackToWhiteButton" (click)="clearUrl()">Clear URL</button>
             }
             @else 
             {
@@ -86,9 +86,28 @@
             </div>
             <div class="flex gap-2">
                 <!-- <button type="button" (click)="t()">debug</button> -->
-                <button mat-stroked-button type="button" class="text-black" (click)="closeDrawer()"> Close </button>
-                <button mat-stroked-button type="submit" class=" " [disabled]="productForm.invalid"> {{ this.productToEdit ? 'Edit' : 'Create' }}</button>
+                <button mat-stroked-button type="button" class="whiteToBlackButton" (click)="closeDrawer()"> Close </button>
+                <button mat-stroked-button type="submit" class="blackToWhiteButton"  [disabled]="productForm.invalid"> {{ this.productToEdit ? 'Edit' : 'Create' }}</button>
             </div>
         </div>
     </form>
 </div>
+
+
+ <!-- <div class="clearFilterDiv">
+                    <button mat-stroked-button class="blackToWhiteButton" (click)="clearFilters()">
+                        Clear Filters
+                    </button>
+                </div>
+                <div class="flex gap-2 closeOrApplyFiltersDiv">
+                    <div>
+                        <button mat-stroked-button class="whiteToBlackButton" (click)="drawer.toggle()"> 
+                            Close
+                        </button>
+                    </div>
+                    <div>
+                        <button mat-stroked-button class="blackToWhiteButton" (click)="applyFilters()">
+                            Apply Filters
+                        </button>
+                    </div>
+                </div> -->

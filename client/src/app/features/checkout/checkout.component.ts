@@ -19,6 +19,7 @@ import { PaymentTypesComponent } from "../paymentMethods/payment-types/payment-t
 import { PaymentDisplayComponent } from "../paymentMethods/payment-display/payment-display.component";
 import { CheckoutConfirmationComponent } from "../checkout-confirmation/checkout-confirmation.component";
 import { SharedServices } from '../../core/services/shared.service';
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 
 @Component({
   selector: 'app-checkout',
@@ -49,6 +50,8 @@ method: any;
     accountService = inject(AccountService)
     checkoutService = inject(CheckoutService)
     saveAddressCheckBox = false
+    shippingMethodPicked = false
+    showPlaceOrder = false;
     aux = {};
     shippingPriceColor="bg-white"
     selectedDelivery: any
@@ -66,6 +69,7 @@ method: any;
 
     UpdatePrice(price: number){
       this.cartService.shippingPrice.set(price)
+      this.shippingMethodPicked = true;
     }
     // private fb = inject(FormBuilder)
     // validationErrors?: string[]
@@ -96,6 +100,9 @@ method: any;
     }   
 
 
-
+    onStepChange(event : StepperSelectionEvent){
+      if (event.selectedIndex == 3) this.showPlaceOrder = true
+      else this.showPlaceOrder = false
+    }
 
 }

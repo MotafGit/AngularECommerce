@@ -1,7 +1,7 @@
 
-
-   <mat-drawer-container class="p-3 bg-gray-50 " style="height: calc(100vh - 6rem);"  >
-        <mat-drawer #drawer class="border-1 border-black " style="max-width:600px ; min-width: 350px; width:60%!important;" mode="over" position="end">
+    <div>
+   <mat-drawer-container class="p-3 pb-0 bg-gray-50 " style="height: calc(100vh - 80px);"  >
+        <mat-drawer #drawer class="border-1 border-black " style="height: 100%; position: fixed; margin-top:80px; max-width:600px ; min-width: 350px; width:60%!important;" mode="over" position="end">
         
             <app-add-or-edit-product 
             [productToEdit]="productToEdit" 
@@ -93,9 +93,9 @@
       
 </div>
 
- <div>
+ <div >
          <mat-paginator
-            class = "bg-white"
+            class="bg-gray-50"
             (page)="handleProductTablePageEvent($event)"
             [length]="tableProducts?.count"
             [pageSize]="shopParams.pageSize"
@@ -107,6 +107,7 @@
     </div>
 
 </mat-drawer-container>
+</div>
 
 
 

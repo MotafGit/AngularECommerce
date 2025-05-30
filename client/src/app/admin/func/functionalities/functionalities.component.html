@@ -1,0 +1,60 @@
+<div class="flex flex-col py-20 px-4">
+    <div class="text-4xl text-center self-center">
+       Welcome to my fictitious eccommerce webApp
+    </div>
+    <div class="text-2xl text-center self-center pt-4">
+        This application is being built with Angular19 Tailwind .Net9 SQLServer and Redis
+    </div>
+    <div class="text-xl">Features:</div>
+
+    <div>
+        <ul>
+            <li class="pt-3">
+               - User can add items to the cart even if he isnt currently logged in. The cart is saved and tracked using the client local_storage. This type of carts are saved for 7 days and then deleted
+            </li>
+            <li class="pt-3">
+               - If the user logs in with a cart made while he wasnt logged, that cart will be given to the user and wont be ever deleted unless the user chooses to.
+            </li>
+            <li class="pt-3">
+               - If the user logs in and there is a different cart "in memory" then the one the user currently has, the user is gonna receive a pop up to choose if he wants to keep the previosly saved cart, or the new one.
+               <p class="pl-4">For example, if the user A is currently logged in with 4 items in the cart, and logs out, the cart will remain acessible, with those items. If this user switches account, upon logging, will receive the popUp to choose.</p>
+               <p class="pl-4">Another example. if the user added items to the cart, and left them there, and comes back to the app a few days later from a different browser or device, and starts adding items to the cart and then logs in, it will be reminded of the previous cart, and given the choice to keep or replace the cart</p>
+            </li>
+            <li class="pt-3">
+               - User can register with any email address, even fake ones.
+            </li>
+            <li class="pt-3">
+                - User can click on the items, see the description and update the cart from the individual item
+                <p class="pl-4">User can search items using the search bar (needs to click enter after typing (for now))</p>
+                <p class="pl-4">User can sort by name or price ascending or descending</p>
+                <p class="pl-4">User can filter by type and brands, for example if the user choose "trousers" only trousers will show, but if chooses "Trousers" and "Zara", only trousers from Zara shall show up</p>
+            </li>
+            <li class="pt-3">
+               - User can add items, update and remove items from the cart
+            </li>
+            <li class="pt-3">
+               - User can see the cart, with the items, with the price of each item, the total per item * quantity, and the total cart
+            </li>
+            <li class="pt-3">
+               - User can checkout the cart, fill the form, choose shipping method, choose type of payment and check the summary of the previous 3 steps + the cart items and confirm the order.
+                <p class="pl-4">
+                    This feature only works on the front end for now.
+                </p>
+            </li>
+            <li class="pt-3">
+               - If you are reading you must have received an admin login.
+               <p class="pl-4">if you log with that email you are gonna have access to the Admin Panel</p> 
+               <p class="pl-4">At the moment, in this panel you'll be able to edit or add new products</p>
+               <p class="pl-4">All fields are mandatory. The image provided must be from a secure url (https) and must be either jpg or png or webp</p>
+               <p class="pl-4"> the backend shall compact the image and turn it into .webp if it isnt already</p>
+            </li>
+            <li class="pt-3">
+                - Most of the app if not the whole app, is responsive until "md" and (for now) some pages are even mobile responsive .
+            </li>
+        </ul>
+    </div>
+    <div class="pt-4">
+        More feature incoming thank you for reading. 
+        <p class="pl-4">If you wish to provide any feedback or report a bug, you have my email. Thanks!</p>
+    </div>
+</div>

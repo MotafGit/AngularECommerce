@@ -10,27 +10,39 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { faGooglePay, faApplePay } from '@fortawesome/free-brands-svg-icons';
 import { NgClass } from '@angular/common';
+import { FooterComponent } from "./layout/footer/footer.component";
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FontAwesomeModule, NgClass],
+  imports: [RouterOutlet, HeaderComponent, FontAwesomeModule, NgClass, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-    ngOnInit() {
-    // Redirect only on initial load
-    this.router.navigate(['/shop']);
+  ngOnInit() {
+    // Subscribe to router events
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        // Scroll to top smoothly after navigation ends
+        window.scrollTo({ top: 0 });
+      }
+    });
   }
   title = 'commerce web app';
   isSpecialComponent: any;
+  homeComponent: any
 
    constructor(private router: Router) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.isSpecialComponent = event.urlAfterRedirects.includes('admin');
+        this.homeComponent = event.url == '/';
       }
+      if (event instanceof NavigationEnd) {
+        this.isSpecialComponent = event.url.includes('admin');
+      }
+
     });
   }
 

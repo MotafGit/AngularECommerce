@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home.component';
 import { ShopComponent } from './features/shop/shop.component';
 import { ProductDetailsComponent } from './features/shop/product-details/product-details.component';
@@ -13,6 +13,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { checkoutGuard } from './core/guards/checkout.guard';
 import { AdminComponent } from './admin/admin/admin.component';
 import { adminGuard } from './core/guards/admin.guard';
+import { NgModule } from '@angular/core';
+import { FunctionalitiesComponent } from './admin/func/functionalities/functionalities.component';
 
 export const routes: Routes = [
     {path:'', component: HomeComponent},
@@ -22,6 +24,7 @@ export const routes: Routes = [
     {path:'checkout', component: CheckoutComponent, canActivate: [authGuard, checkoutGuard]},
     {path:'admin', component: AdminComponent, canActivate: [adminGuard]},
     {path:'account/login', component: LoginComponent},
+    {path:'features', component: FunctionalitiesComponent},
     {path:'account/register', component: RegisterComponent},
     {path:'testError', component: TestErrorComponent},
     {path:'notfound', component: NotFoundComponent},
@@ -29,4 +32,6 @@ export const routes: Routes = [
     {path:'**', redirectTo: 'notfound', pathMatch:'full'}
 
 ];
+
+
  

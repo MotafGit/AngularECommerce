@@ -101,15 +101,35 @@ app.MapControllers();
 app.MapGroup("api").MapIdentityApi<AppUser>(); 
 app.MapFallbackToController("Index", "Fallback");
 
-try{
+// try{
+//     using var scope = app.Services.CreateScope();
+//     var services = scope.ServiceProvider;
+//     var context = services.GetRequiredService<StoreContext>();
+//      await context.Database.MigrateAsync();
+//     await StoreContextSeed.SeedAsync(context);
+// }
+// catch(Exception ex){
+//     Console.WriteLine(ex);
+//     throw;
+// }
+
+try
+{
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<StoreContext>();
-     await context.Database.MigrateAsync();
-    await StoreContextSeed.SeedAsync(context);
+
+    var strategy = context.Database.CreateExecutionStrategy();
+
+    await strategy.ExecuteAsync(async () =>
+    {
+        await context.Database.MigrateAsync();
+        await StoreContextSeed.SeedAsync(context);
+    });
 }
-catch(Exception ex){
-    Console.WriteLine(ex);
+catch (Exception ex)
+{
+    Console.WriteLine($"Migration failed: {ex.Message}");
     throw;
 }
 

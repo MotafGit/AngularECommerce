@@ -1,17 +1,6 @@
-    <!-- <div class="flex p-4 border-b-1 border-black justify-between items-center">
-        <div class="text-2xl font-bold text-black ">
-            {{productToEdit ? "Edit" : "Add new"}}  Product
-        </div>
-        <button (click)="closeDrawer()" class="cursor-pointer p-1 hover:bg-gray-400 rounded-full" style="width:50px; height:50px">
-            <mat-icon class="align-middle">close</mat-icon>
-        </button>
-    </div> -->
 
 
-    
 
-@if(products)
-{
 <mat-drawer-container class="p-3 bg-white" style="height: 100%;margin-inline: unset!important;"  >
   <mat-drawer #drawer class="border-1 border-black mt-20"  mode="over" position="end" style="width: 60%; min-width: 350px;position: fixed; ">
     <div class="flex flex-col" style="height: 99%;">
@@ -114,11 +103,15 @@
         <mat-icon>search</mat-icon>
         </button>
         </form> -->
-            <div style="" class="text-nowrap">
-                Showing {{shopParams.pageNumber==1 ? 1 : (shopParams.pageNumber - 1) * shopParams.pageSize + 1 }} 
-                - {{products.count>shopParams.pageNumber * shopParams.pageSize  ? shopParams.pageNumber * shopParams.pageSize : products.count}}
-                 of {{products.count}} products
-            </div>
+        @if(products)
+        {
+        <div style="" class="text-nowrap">
+            Showing {{shopParams.pageNumber==1 ? 1 : (shopParams.pageNumber - 1) * shopParams.pageSize + 1 }} 
+            - {{products.count>shopParams.pageNumber * shopParams.pageSize  ? shopParams.pageNumber * shopParams.pageSize : products.count}}
+                of {{products.count}} products
+        </div>
+        }
+            
     </div>
     <div>
            <form #searchForm="ngForm"
@@ -138,7 +131,7 @@
         </form>
     </div>
         <div class="grid max-[500px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-4 shopGrid ">
-        @for (product of products.data; track product.id){
+        @for (product of products?.data; track product.id){
             <app-product-item [product]="product"></app-product-item>
         }
     </div>
@@ -146,7 +139,7 @@
          <mat-paginator
             class = "bg-white"
             (page)="handlePageEvent($event);"
-            [length]="products.count"
+            [length]="products?.count"
             [pageSize]="shopParams.pageSize"
             [showFirstLastButtons]="true"
             [pageSizeOptions]="pageSizeOptions"
@@ -167,7 +160,7 @@
     </mat-selection-list>
 </mat-menu>
 </mat-drawer-container>
-}
+<!-- <app-footer></app-footer> -->
 
 
 

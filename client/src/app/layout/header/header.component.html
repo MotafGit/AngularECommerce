@@ -1,6 +1,8 @@
-<header class="border-b p-3 w-full shadow-md max-h-20 fixed top-0 z-50 bg-white">
-    <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto">
-        <img routerLink="/" src="/images/logo.png" alt="app logo" class="max-h-14 cursor-pointer">
+<header class="border-b p-2 w-full shadow-md h-16 fixed top-0 z-50 bg-white">
+    <div class="flex align-middle items-center justify-between ">
+        <div style="height: 30px;min-width: 110px;">
+        <img routerLink="/" src="/images/logo.png" alt="app logo" class="cursor-pointer" style="transform: scale(4);height: 27px; margin-left:40px">
+        </div>
         <nav class="flex gap-3 my-2 uppercase text-2xl">
             <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" >Home</a>
             <a routerLink="/shop" routerLinkActive="active">Shop</a>
@@ -12,7 +14,7 @@
 
 
         </nav>
-        <div class="flex gap-3 align-middle" (click)="clickedCart()">
+        <div class="flex gap-3 align-middle items-center" (click)="clickedCart()">
             <a routerLink="/cart" matBadge="{{cartService.cartItemCount()}}" matBadgeSize="large" class="custom-badge mt-2 mr-2">
                 <mat-icon>shopping_cart</mat-icon>
             </a>
@@ -38,7 +40,7 @@
 </header>
 
 @if(busyService.loading){
-    <mat-progress-bar mode="indeterminate" class="fixed top-20"></mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" class="fixed" style="top:80px; z-index:3000"></mat-progress-bar>
 }
 
 

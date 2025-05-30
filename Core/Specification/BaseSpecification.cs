@@ -9,7 +9,7 @@ namespace Core.Specification;
 
 public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expression<Func<T, object>>> includes ) : ISpecification<T> where T : class
 {
-    private Func<Product, bool> value;
+   // private Func<Product, bool> value;
 
 
 
@@ -35,7 +35,9 @@ public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expre
 
 
 
+#pragma warning disable CS0693 // Type parameter has the same name as the type parameter from outer type
     public Expression<Func<T, object>> GenericExpression<T>( string navigation)
+#pragma warning restore CS0693 // Type parameter has the same name as the type parameter from outer type
     {
         var parameter = Expression.Parameter(typeof(T), "x");
         var property = Expression.PropertyOrField(parameter, navigation);
@@ -84,7 +86,9 @@ public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expre
 
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
     {
-    Includes.Add(includeExpression);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        Includes.Add(includeExpression);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
     }
 
 

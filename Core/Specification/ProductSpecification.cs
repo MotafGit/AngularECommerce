@@ -8,8 +8,12 @@ public class ProductSpecification : BaseSpecification<Product>
 {
     public ProductSpecification( ProductSpecParams specParams ) : base(x =>
         (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         ( specParams.Brands.Count == 0  ||  specParams.Brands.Contains(x.BrandNavigation.BrandName)) &&
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         ( specParams.Types.Count == 0  ||  specParams.Types.Contains(x.TypeNavigation.TypeName)),
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
         new List<Expression<Func<Product, object>>>() 
     )
     {
