@@ -10,6 +10,7 @@ import { CartService } from '../../core/services/cart.service';
 import { AccountService } from '../../core/services/account.service';
 import { MatMenu, MatMenuItem, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 import { MatDivider } from '@angular/material/divider';
+import { Cart } from '../../models/cart';
 
 
 
@@ -45,6 +46,7 @@ export class HeaderComponent {
     this.accountService.logout().subscribe({
       next: () => {
         this.accountService.currentUser.set(null)
+        this.cartService.cart.set(new Cart)
         this.router.navigateByUrl('/shop')
       }
     })

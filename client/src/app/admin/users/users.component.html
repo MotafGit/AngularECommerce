@@ -1,1 +1,134 @@
-<p>users works!</p>
+ <div  class="">
+       <mat-drawer-container class=" pb-0 bg-gray-50 " style="min-height: calc(100vh - 80px);"  >
+        <mat-drawer #drawer class="border-1 border-black" style="overscroll-behavior: auto; position: fixed; margin-top:80px; max-width:600px ; min-width: 350px; width:60%!important;" mode="over" position="end">
+            
+            @if(showCartFromUser != null)
+            {
+
+                <!-- <app-add-or-edit-product 
+                [productToEdit]="productToEdit" 
+                (closeDrawerEvent)="drawer.toggle()"
+                (createOrUpdateProductReactive)="createOrUpdateProductReactive($event)"
+                ></app-add-or-edit-product> -->
+                <div class="p-3">
+                    <app-items-final-checkout
+                        [showCartFromUser]="showCartFromUser"
+                    ></app-items-final-checkout>
+                </div>
+                <div class="h-1 w-full border-b-1 border-gray-400"></div>
+                <div class="p-3">
+                    <div class="rounded-xl border border-gray-200 bg-white px-7 py-3 shadow-sm h-20">
+                        <div class="flex flex-col w-full h-full justify-around">
+                            <div class="flex justify-between  font-bold">
+                                <div class="text-lg">
+                                    Total
+                                </div>
+                                <div  class="text-xl">
+                                    {{ getTotal()}}€
+                                </div>
+
+                            </div>
+                                <div class="text-sm text-gray-500">
+                                    {{showCartFromUser?.items?.length}} items
+                                </div>
+
+                        </div>
+                    </div>
+            </div>
+            }
+            <!-- ordersDrawer -->
+
+            @if (showOrdersFromUser != null)
+            {
+               <div class="p-3">
+                    <app-completed-orders
+                        [showOrdersFromUser]="showOrdersFromUser"
+                    ></app-completed-orders>
+                </div>
+            }
+
+        </mat-drawer>
+
+       
+
+
+    <div class="w-full pt-4 ">
+                
+        <form #searchForm="ngForm"
+            (ngSubmit)="onSearchChange()"
+            class="relative flex items-center w-full"
+        >
+            <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
+                placeholder="Search"
+                name="search"
+                 [(ngModel)]="baseParams.search"
+            />
+            <button mat-icon-button type="submit"
+                class="absolute inset-y-0 right-8 top-1 flex items-center pl-3 pb-1"
+            >
+            <mat-icon>search</mat-icon>
+        </button>
+        </form>
+    </div>
+
+        @if (users)
+        {
+              <mat-table [dataSource]="users.data" style="" class="bg-gray-50 rounded-lg border-1 border-gray-300 box-border">
+
+            <ng-container matColumnDef="user">
+                <mat-header-cell *matHeaderCellDef  style="min-width: 60px; max-width: 350px;" > User </mat-header-cell>
+                <mat-cell *matCellDef="let element"  style="width: 30px; max-width: 350px; height: 100px;justify-content: left ">
+                    <div class="flex flex-col" >
+                        <div >
+                            {{element.firstName}}  {{element.lastName}} 
+                        </div>
+                        <div class="text-sm text-gray-500" >
+                             {{element.email}} 
+                        </div>
+                    </div> 
+                </mat-cell> 
+            </ng-container>
+
+
+            <ng-container matColumnDef="address">
+                <mat-header-cell *matHeaderCellDef stickyEnd> Address </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="white-space: nowrap; text-overflow: ellipsis;width: 100px">
+                     <div class="flex flex-col" class="" style=" flex-shrink: 1; white-space: nowrap;text-overflow: ellipsis; ">
+                         @if(element.address)
+                        {
+                            <div style="white-space: nowrap; text-overflow: ellipsis; ">
+                            {{element.address.line1}} {{element.address.line2}} {{element.address.postalCode}} - {{element.address.city}}
+                            </div>
+                        
+                            <div class="hover:underline hover:text-blue-800 cursor-pointer" style="color:#2563EB;">
+                                View full address
+                            </div>
+                        }
+                        @else 
+                        {
+                            empty address
+                        }
+                       
+                    </div>  
+                </mat-cell>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="actions" stickyEnd >
+                <mat-header-cell *matHeaderCellDef style="max-width: 100px;" sticky> Actions </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="max-width:100px;" class="justify-center">
+                    <div class="flex">
+                        <mat-icon (click)="openShoppingCart(element.cartID)" class="mr-2 text-green-600 hover:text-green-700 cursor-pointer">shopping_cart</mat-icon>
+                        <mat-icon (click)="getOrders(element.email)" class=" text-gray-500 hover:text-gray-700 cursor-pointer">shopping_bag</mat-icon>
+                    </div>  
+                </mat-cell>
+            </ng-container>
+            
+        <mat-header-row *matHeaderRowDef="displayedColumns;" ></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+}
+      </mat-drawer-container>
+</div>

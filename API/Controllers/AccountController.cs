@@ -2,15 +2,19 @@ using System;
 using System.Security.Claims;
 using API.DTO;
 using API.Extensions;
+using API.RequestHelpers;
 using Core.Entities;
+using Core.Interfaces;
+using Core.Specification;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(SignInManager<AppUser> signInManager) : BaseApiController
+public class AccountController(SignInManager<AppUser> signInManager, IUsersService service) : BaseApiController
 {
     [HttpPost("register")]
     public async Task<ActionResult> Register (RegisterDto registerDto)
@@ -88,5 +92,46 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
 
         return Ok(user.Address.ToDto());
     }
+
+    [Authorize]
+    [HttpGet("users")]
+    public async Task<ActionResult<IReadOnlyList<AppUser>>> GetUsers([FromQuery]BaseSpecParams specParams){
+
+        var user = new UserSpecification(specParams);
+       // var users =  await service.GetUsers();
+
+        if (user == null)
+        {
+            return BadRequest();
+        }
+       // var items = await repo.ListAsync(spec);
+         var users =  await service.GetUsers();
+        // var count = await repo.CounterAsync(spec);
+        var count = await service.CounterAsync();
+
+
+       // var Pagination = new Pagination<T>(pageIndex, PageSize,count, items);
+        var Pagination = new Pagination<object>(specParams.PageIndex, specParams.PageSize,count, users);
+        
+
+        return Ok(Pagination);
+
+       // return Ok(users);
+    }
+
+
+    //     [HttpGet("users")]
+    // public async Task<ActionResult<IReadOnlyList<AppUser>>> GetUsers(){
+
+    //     var users =  await service.GetUsers();
+
+    //     if (users == null)
+    //     {
+    //         return BadRequest();
+    //     }
+        
+
+    //     return Ok(users);
+    // }
 
 }

@@ -27,6 +27,12 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
 
     public DbSet<TypesType> TypesType { get; set; }
 
+    public DbSet<Order> Orders { get; set; }
+
+    public DbSet<OrderProduct> OrderProducts { get; set; }
+
+
+
 
 
 

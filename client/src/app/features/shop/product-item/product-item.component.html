@@ -2,7 +2,7 @@
 {
     <div style="min-height: 378px;" class="flex">
         
-    <mat-card appearance="raised"class="bg-white productCard flex-grow" routerLink="/shop/{{product.id}}">
+    <mat-card [ngClass]="product.quantityInStock> 0 ? 'withStock' : 'withoutStock'" class="productCard flex-grow" routerLink="/shop/{{product.id}}">
         <div class="flex flex-col flex-grow">
             <img src="{{product.pictureUrl}}" alt="image if {{product.pictureUrl}}" class="">
 
@@ -17,10 +17,17 @@
          
             <div class="flex flex-grow items-end w-full">
             <mat-card-actions (click)="$event.stopPropagation()" class="w-full">
+                @if(product.quantityInStock > 0)
+                {
                 <button mat-stroked-button class="w-full" (click)="cartService.addItemToCart(product,1, accountService.currentUser()?.email)" >
                     <mat-icon>add_shopping_cart</mat-icon>
-                    Add to cart
+                   Add to cart
                 </button>
+                }
+                @else
+                {
+                    <div> No stock Available</div>
+                }
             </mat-card-actions>
             </div>
                 </div>

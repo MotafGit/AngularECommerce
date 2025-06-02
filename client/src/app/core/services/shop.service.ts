@@ -74,8 +74,8 @@ export class ShopService {
     return this.http.post(this.baseUrl + 'products', product)
   }
 
-  updateProduct(product: Product){
-    return this.http.put(this.baseUrl + 'products/' + product.id , product)
+  updateProduct(product: Product, previousUrl: string){
+    return this.http.put(this.baseUrl + 'products/' + product.id, {product, previousUrl})
   }
   
 }

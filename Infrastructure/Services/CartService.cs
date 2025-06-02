@@ -47,7 +47,7 @@ public class CartService(IConnectionMultiplexer redis, UserManager<AppUser> user
             StackExchange.Redis.SortedSetEntry[]? scores = null;
             bool created  = false;
         if (cart.Id.Equals("0") || cart.Id.Equals("null") ){
-            var highestKey = await _database.SortedSetRangeByRankAsync("cart_timestamps", 0, 0, order: Order.Descending);
+            var highestKey = await _database.SortedSetRangeByRankAsync("cart_timestamps", 0, 0, order: StackExchange.Redis.Order.Descending);
             if (highestKey.Length > 0)
             {
 
@@ -59,6 +59,7 @@ public class CartService(IConnectionMultiplexer redis, UserManager<AppUser> user
             }
             else
             {
+                
                 cart.Id = "1";
             }
             await _database.SortedSetAddAsync("cart_timestamps", cart.Id, DateTimeOffset.UtcNow.ToUnixTimeSeconds());

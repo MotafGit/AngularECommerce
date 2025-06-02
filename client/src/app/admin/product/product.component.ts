@@ -76,7 +76,7 @@ export class ProductComponent implements OnInit {
     this.drawer.toggle()
   }
 
-  createOrUpdateProductReactive(event: { product: Product; action: string }){
+  createOrUpdateProductReactive(event: { product: Product; action: string}){
     if (this.tableProducts?.data) {
     console.log(event.product)
     
@@ -112,6 +112,7 @@ export class ProductComponent implements OnInit {
 
 
   handleProductTablePageEvent(event: PageEvent){
+    
     this.shopParams.pageNumber = event.pageIndex + 1
     this.shopParams.pageSize = event.pageSize
     this.shopService.getProducts(this.shopParams).subscribe({
@@ -119,6 +120,7 @@ export class ProductComponent implements OnInit {
          this.tableProducts = items
       }
     })
+    
   }
 
 displayedColumns: string[] = ['image', 'name', 'price', 'stock','type', 'brand', 'edit'];

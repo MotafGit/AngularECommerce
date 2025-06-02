@@ -1,9 +1,10 @@
-export class ShopParams {
+import { BaseParams } from "./baseParams"
+
+
+
+export class ShopParams extends BaseParams {
     brands: string[] = []
     types: string[] = []
-    sort = 'name'
-    pageNumber = 1
-    pageSize = 10
-    search = ''
+    override sort = 'name'
     includes = "TypeNavigation,BrandNavigation"
 }

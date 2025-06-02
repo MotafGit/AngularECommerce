@@ -12,6 +12,4 @@ public class Pagination<T>(int pageIndex, int pageSize, int count, IReadOnlyList
 
     public IReadOnlyList<T> Data {get; set;} = data;  
 
-
-
 }

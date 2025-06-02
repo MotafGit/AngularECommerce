@@ -10,6 +10,9 @@ public interface IGenericRepository<T> where T : BaseEntity
 
     Task<T?> GetByIdAsyncWithIncludes(int id, Expression<Func<T, object>>[] includeExpressions);
 
+    Task<T?> GetByStringIdAsyncWithIncludes(string id, Expression<Func<T, object>>[] includeExpressions);
+
+
 
     Task<IReadOnlyList<T>> ListAllAsync();
 

@@ -55,7 +55,7 @@ export class AddOrEditProductComponent  implements OnInit {
   pictureUrldisabled = true
   allBrands: any;
   allTypes: any;
-
+  previousImgPathName: string = ""
 
 
   private fb = inject(FormBuilder)
@@ -64,7 +64,7 @@ export class AddOrEditProductComponent  implements OnInit {
     name: ['', Validators.required],
     description: ['',Validators.required],
     price: [0.1, [Validators.required]],
-    pictureUrl: ['', [Validators.required, Validators.pattern(/^https:\/\/.*\.(jpg|jpeg|png)$/i)]],
+    pictureUrl: ['', [Validators.required, Validators.pattern(/^https:\/\/.*\.(jpg|jpeg|png|webp)$/i)]],
     typeId: [0, Validators.required],
     brandId: [0, Validators.required],
     quantityInStock: [0, Validators.required],
@@ -134,6 +134,7 @@ export class AddOrEditProductComponent  implements OnInit {
       const control = this.productForm.get('pictureUrl');
       if(control)
       {
+        this.previousImgPathName =  this.productForm.get('pictureUrl')?.getRawValue()
         control.setValidators([Validators.required, Validators.pattern(/^https:\/\/.*\.(jpg|jpeg|png)$/i)]);
         control.updateValueAndValidity();
         this.productForm.get('pictureUrl')?.enable()
@@ -179,11 +180,11 @@ export class AddOrEditProductComponent  implements OnInit {
       if(!this.productToEdit)
       {
         this.shopService.createProduct(product).subscribe({
-          next: createdProduct => this.createOrUpdateProductReactive.emit({product: createdProduct as Product,action: "created" })
+          next: createdProduct => this.createOrUpdateProductReactive.emit({product: createdProduct as Product,action: "created"})
         })
       }
       else{
-        this.shopService.updateProduct(product).subscribe({
+        this.shopService.updateProduct(product, this.previousImgPathName).subscribe({
           next: updatedProducted => this.createOrUpdateProductReactive.emit({product: updatedProducted as Product,action: "updated"}),
           error: err => console.log(err)
         })

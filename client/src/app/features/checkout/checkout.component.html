@@ -1,3 +1,4 @@
+
 <div class="flex mt-4 gap-6 justify-center checkout" style="min-height: calc(100vh - 100px);">
     <div class="w-3/4 m-4 loginForm">
         <mat-stepper   #stepper class="bg-white border border-gray-200 shadow-sm" [linear]="true" (selectionChange)="onStepChange($event)" >
@@ -66,7 +67,7 @@
         @if (showPlaceOrder)
         {
         <div class="pt-3">
-            <button mat-flat-button class="rounded-md bg-black w-full">
+            <button mat-flat-button class="rounded-md bg-black w-full" (click)="placeOrder();">
                 Place Order
             </button>
         </div>

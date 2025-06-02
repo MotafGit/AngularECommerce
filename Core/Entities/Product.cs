@@ -22,5 +22,6 @@ public class Product : BaseEntity
     public virtual Types? TypeNavigation { get; set; }
     public virtual Brands? BrandNavigation { get; set; }
 
+    public ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>();
 
 }

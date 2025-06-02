@@ -64,6 +64,8 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
        var aux = new ProductSpecParams();
        var spec = new ProductSpecification(aux);
 
+       product.Id = null;
+
         // var spec1 = new ProductSpecification(product1);
          var count = await repo.GetHighestId(spec);
          count++;
@@ -82,7 +84,7 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
 
         var fileName = product.Name + count + ".webp"; // fallback filename
 
-        await CropAndSaveImg(fileName, imageBytes);
+        await CropAndSaveImg(fileName, imageBytes, 1);
 
         product.PictureUrl = "/images/products/" + fileName;
 
@@ -99,35 +101,40 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdateProduct(int id, Product product){
+    public async Task<ActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequest request){
+
+
         
-        if (product.Id != id  || !ProductExists(id)){
+        if (request.Product.Id != id  || !ProductExists(id)){
             return BadRequest ("Cannot update this product");
         }
 
 
-        if (product.PictureUrl.Contains("https") && (product.PictureUrl.Contains(".png") || product.PictureUrl.Contains(".jpeg") || product.PictureUrl.Contains(".jpg") || product.PictureUrl.Contains(".webp")))
+        if (request.Product.PictureUrl.Contains("https") && (request.Product.PictureUrl.Contains(".png") || request.Product.PictureUrl.Contains(".jpeg") || request.Product.PictureUrl.Contains(".jpg") || request.Product.PictureUrl.Contains(".webp")))
         {
              var client = httpClientFactory.CreateClient();
 
-            var response = await client.GetAsync(product.PictureUrl);
+            var response = await client.GetAsync(request.Product.PictureUrl);
             response.EnsureSuccessStatusCode();
             var imageBytes = await response.Content.ReadAsByteArrayAsync();
 
-            var fileName = product.Name + product.Id + ".png"; // fallback filename
-            await CropAndSaveImg(fileName, imageBytes);
-            product.PictureUrl = "/images/products/" + fileName;
-        } 
+            
+            await CropAndSaveImg(request.PreviousUrl, imageBytes, 2);
+            request.Product.PictureUrl = request.PreviousUrl;
+        }
+        // else{
+        //     return BadRequest();
+        // } 
 
        
-        repo.Update(product);
+        repo.Update(request.Product);
 
         if (await repo.SaveAllAsync())
         {
-              await context.Entry(product).Reference(p => p.TypeNavigation).LoadAsync();
-              await context.Entry(product).Reference(p => p.BrandNavigation).LoadAsync();
+              await context.Entry(request.Product).Reference(p => p.TypeNavigation).LoadAsync();
+              await context.Entry(request.Product).Reference(p => p.BrandNavigation).LoadAsync();
 
-            return Ok(product);
+            return Ok(request.Product);
         }
 
 
@@ -167,28 +174,53 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
     }
 
 
-     async Task CropAndSaveImg(string fileName, byte[]? imageBytes)
+     async Task CropAndSaveImg(string fileName, byte[]? imageBytes, int flag)
     {
+        // int flag = 1 create, int flag = 2 update
             var parentDirectory = Directory.GetParent(Directory.GetCurrentDirectory());
 
             var currentDirectory = Directory.GetCurrentDirectory();
 
             var folderPath = "" ;   
-            
-            if (parentDirectory != null)
-            {
-                folderPath = Path.Combine(parentDirectory.FullName, "client/public/images/products");
-            }
+            var filePath = "";
+            var filePath2 = "";
 
-           var wwwrootPath = Path.Combine(currentDirectory, "wwwroot/images/products");
-
-            if (!Directory.Exists(folderPath))
+            if ( flag == 1)
             {
-                Directory.CreateDirectory(folderPath);
+                if (parentDirectory != null)
+                {
+                    folderPath = Path.Combine(parentDirectory.FullName, "client/public/images/products");
+                }
+
+            var wwwrootPath = Path.Combine(currentDirectory, "wwwroot/images/products");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+               //  filePath = Path.Combine(folderPath, fileName);
+                 filePath2 = Path.Combine(wwwrootPath, fileName);
+            }
+            else
+            {
+                fileName = fileName.Substring(1);
+                if (parentDirectory != null)
+                {
+                    folderPath = Path.Combine(parentDirectory.FullName, "client/public");
+                }
+
+            var wwwrootPath = Path.Combine(currentDirectory, "wwwroot");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                // filePath = Path.Combine(folderPath, fileName);
+                 filePath2 = Path.Combine(wwwrootPath, fileName);
+
             }
             
-            //var filePath = Path.Combine(folderPath, fileName);
-            var filePath2 = Path.Combine(wwwrootPath, fileName);
+
 
 
            // await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
@@ -234,12 +266,18 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
                 var squaredImageBytes = ms.ToArray();
 
                 // Write the squared image bytes to disk
-               // await System.IO.File.WriteAllBytesAsync(filePath, squaredImageBytes);
+              //  await System.IO.File.WriteAllBytesAsync(filePath, squaredImageBytes);
                 await System.IO.File.WriteAllBytesAsync(filePath2, squaredImageBytes);
 
                 }
             }
     }
 
+
+    public class UpdateProductRequest
+{
+    public required Product Product { get; set; }
+    public required string PreviousUrl { get; set; }
+}
 
 }

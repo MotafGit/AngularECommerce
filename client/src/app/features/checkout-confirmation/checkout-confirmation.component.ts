@@ -4,13 +4,15 @@ import { MatCard } from '@angular/material/card';
 import { SharedServices } from '../../core/services/shared.service';
 import { CheckoutService } from '../../core/services/checkout.service';
 import { CartService } from '../../core/services/cart.service';
+import { ItemsFinalCheckoutComponent } from "./items-final-checkout/items-final-checkout.component";
 
 @Component({
   selector: 'app-checkout-confirmation',
   imports: [
     MatCard,
-    MatButton
-  ],
+    MatButton,
+    ItemsFinalCheckoutComponent
+],
   templateUrl: './checkout-confirmation.component.html',
   styleUrl: './checkout-confirmation.component.scss'
 })

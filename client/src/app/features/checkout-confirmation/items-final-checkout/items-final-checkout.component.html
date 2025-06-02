@@ -1,0 +1,54 @@
+
+
+<mat-card class="p-4 md:p-7 mt-4">
+            <div class="font-bold text-xl pb-4">
+                Order Items
+            </div>
+            <div class="flex flex-col gap-3">
+                @for (item of (showCartFromUser != null ? showCartFromUser.items : cartService.cart()?.items); track item.productId)
+                {
+                    <div class="rounded-xl border border-gray-200 bg-white p-3 shadow-sm">
+                        <div class="flex justify-between">
+                       
+                            <div class="flex">
+                                <div>
+                                        <img src="{{ item.pictureUrl}}" alt="productImg" class="h-20 w-20" style="border-radius: 10px;min-width: 100px; border: 1px solid #eaeaea">
+                                </div>
+                                <div class="flex flex-col justify-center pl-4">
+                                        <div class="font-medium">
+                                            {{item.productName}}
+                                        </div>
+                                        <div class="text-sm text-slate-400">
+                                            Quantity: {{item.quantity}}
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <div class="self-end">
+                                {{ item.price * item.quantity}}€
+                                </div>
+                                @if(item.quantity> 1)
+                                {
+                                    <div class="text-sm text-slate-400 text-end">
+                                        {{ item.price}}€ each
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        
+                    </div>
+                }
+            </div>
+        </mat-card>
+
+
+
+<!-- <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm mb-4 m-4 ">
+    <div class="flex">
+    <div class="cartItem flex-grow">
+            <div class="urlAndName">
+                <div class="">
+                    <a routerLink="/shop/{{item().productId}}" class="shrink ">
+                        <img src="{{item().pictureUrl}}" alt="productImg" class="h-20 w-20" style="border-radius: 10px;min-width: 100px; border: 1px solid #eaeaea">
+                    </a>
+                </div> -->

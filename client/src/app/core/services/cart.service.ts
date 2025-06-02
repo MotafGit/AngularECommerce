@@ -72,6 +72,11 @@ export class CartService {
       })
     )
   }
+
+  getCartToOrder(id: string){
+    return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id)
+  }
+
       // return this.http.post<Cart>(this.baseUrl + 'payment/setUpPayment/' + cart.id + '/' + this.accountService.currentUser()?.email, {}).pipe(
   setCart(cart:Cart, email:string | undefined){
     console.log
@@ -115,6 +120,7 @@ export class CartService {
 
   mapProductToCartItem(item: Product): CartItem  {
     return {
+      id: 0,
       productId: item.id,
       productName: item.name,
       price: item.price,
@@ -127,7 +133,26 @@ export class CartService {
     }
   }
 
+    mapCartItemToProduct(item: CartItem): Product  {
+    return {
+      id: item.productId,
+      name: item.productName,
+      description: "",
+      price: item.price,
+      pictureUrl: item.pictureUrl,
+      brandId: item.brandId,
+      typeId: item.typeId,
+      quantity: item.quantity,
+      quantityInStock: 0,
+      isProduct: true,
+      typeNavigation: null,
+      brandNavigation: null
+    }
+  }
+
+
   private isProduct(item: CartItem | Product) : item is Product{
+    console.log(item)
     return (item as Product).id !== 0
   }
 

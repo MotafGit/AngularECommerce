@@ -217,6 +217,59 @@ namespace Infrastructure.Migrations
                     b.ToTable("Delivery");
                 });
 
+            modelBuilder.Entity("Core.Entities.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("OrderPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserNavigationId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserNavigationId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderProducts");
+                });
+
             modelBuilder.Entity("Core.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -566,6 +619,30 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("ShoppingCartId");
                 });
 
+            modelBuilder.Entity("Core.Entities.Order", b =>
+                {
+                    b.HasOne("Core.Entities.AppUser", "UserNavigation")
+                        .WithMany("Orders")
+                        .HasForeignKey("UserNavigationId");
+
+                    b.Navigation("UserNavigation");
+                });
+
+            modelBuilder.Entity("Core.Entities.OrderProduct", b =>
+                {
+                    b.HasOne("Core.Entities.Order", "OrderNavigations")
+                        .WithMany("OrderProductsNavigation")
+                        .HasForeignKey("OrderId");
+
+                    b.HasOne("Core.Entities.Product", "ProductNavigation")
+                        .WithMany("OrderProducts")
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("OrderNavigations");
+
+                    b.Navigation("ProductNavigation");
+                });
+
             modelBuilder.Entity("Core.Entities.Payment", b =>
                 {
                     b.HasOne("Core.Entities.AppUser", "Customer")
@@ -666,6 +743,21 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Entities.AppUser", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Core.Entities.Order", b =>
+                {
+                    b.Navigation("OrderProductsNavigation");
+                });
+
+            modelBuilder.Entity("Core.Entities.Product", b =>
+                {
+                    b.Navigation("OrderProducts");
                 });
 
             modelBuilder.Entity("Core.Entities.ShoppingCart", b =>

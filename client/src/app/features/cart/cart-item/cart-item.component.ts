@@ -22,6 +22,7 @@ export class CartItemComponent {
 
 
   incrementQuantity(item: CartItem){
+    console.log(item)
     this.cartService.addItemToCart(item, item.quantity + 1, undefined)
   }
 

@@ -25,7 +25,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
     public async Task<int> GetHighestId(ISpecification<T> spec)
     {
-        return await context.Set<T>().MaxAsync(e => e.Id); 
+        return (int)await context.Set<T>().MaxAsync(e => e.Id); 
     }
 
 
@@ -110,5 +110,17 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
     private IQueryable<TResult>ApplySpecification<TResult>(ISpecification<T,TResult> spec)
     {
         return SpecificationEvaluator<T>.GetQuery<T,TResult>(context.Set<T>().AsQueryable(), spec);
+    }
+
+    public async Task<T?> GetByStringIdAsyncWithIncludes(string id, Expression<Func<T, object>>[] includeExpressions)
+    {
+        IQueryable<T> query = context.Set<T>();
+        
+        foreach (var includeExpression in includeExpressions)
+        {
+            query = query.Include(includeExpression);
+        }
+
+        return await query.FirstOrDefaultAsync(e => EF.Property<string>(e, "Id").Equals(id));
     }
 }

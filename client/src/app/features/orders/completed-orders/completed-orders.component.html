@@ -1,0 +1,51 @@
+<div class="text-sm font-bold">Page html and css in progress</div>
+<div>
+    @for (order of showOrdersFromUser; track $index) 
+    {   
+        <mat-card class="p-2 mt-2">
+
+            <div class="mt-3">
+
+                    <div class="flex justify-between">
+                        <div>Order {{$index + 1}}</div>    
+                        <div class="text-green-600">Completed</div>
+                    </div>
+                    <div class="flex justify-between">
+                        <div>
+                            {{order.orderDate}}
+                        </div>
+                        <div>
+                            {{order.orderPrice}}€
+                        </div>
+                    </div>
+            </div>
+
+            <div class="pt-2">
+                <div class="font-semibold">Products: </div>
+                @for (product of order.orderProductsNavigation; track $index) 
+                {
+                    
+                    <div class="flex flex-col">
+                        <div class="flex justify-between">
+                            <div>
+                               <span class="text-slate-400 text-sm">{{product.quantity}}x</span>  {{product.productNavigation.name}}
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-end">
+                                     {{product.productNavigation.price * product.quantity }} €
+                                </div>
+                                <div class="text-sm text-slate-400 text-end">
+                                     {{product.quantity > 1 ? (product.productNavigation.price * product.quantity + '€ each') : ''}}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </mat-card>
+            
+            
+        }
+
+</div>

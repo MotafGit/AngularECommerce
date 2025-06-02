@@ -15,6 +15,7 @@ import { AdminComponent } from './admin/admin/admin.component';
 import { adminGuard } from './core/guards/admin.guard';
 import { NgModule } from '@angular/core';
 import { FunctionalitiesComponent } from './admin/func/functionalities/functionalities.component';
+import { CheckoutSuccessComponent } from './features/checkout-confirmation/checkout-success/checkout-success.component';
 
 export const routes: Routes = [
     {path:'', component: HomeComponent},
@@ -22,6 +23,7 @@ export const routes: Routes = [
     {path:'shop/:id', component: ProductDetailsComponent},
     {path:'cart', component: CartComponent},
     {path:'checkout', component: CheckoutComponent, canActivate: [authGuard, checkoutGuard]},
+    {path:'checkoutSuccess', component: CheckoutSuccessComponent},
     {path:'admin', component: AdminComponent, canActivate: [adminGuard]},
     {path:'account/login', component: LoginComponent},
     {path:'features', component: FunctionalitiesComponent},

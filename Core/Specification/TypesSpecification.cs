@@ -5,7 +5,7 @@ namespace Core.Specification;
 
 public class TypesSpecification :  BaseSpecification<Types, Types>
 {
-        public TypesSpecification()
+    public TypesSpecification()
     {
         AddSelect(x => x);
     }
