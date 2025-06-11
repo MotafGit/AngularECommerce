@@ -9,6 +9,8 @@ export type Product = {
     quantity: number
     quantityInStock: number
     isProduct: boolean
+    avgScore?: number
     typeNavigation: any;
     brandNavigation: any;
+    reviews?: any
 }

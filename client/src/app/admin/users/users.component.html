@@ -50,13 +50,16 @@
         </mat-drawer>
 
        
+    <div class="p-3">
+    <div class="text-2xl font-bold">
+        Users
+    </div>
+    <div class="w-full pt-4 pb-3 ">
 
-
-    <div class="w-full pt-4 ">
                 
         <form #searchForm="ngForm"
             (ngSubmit)="onSearchChange()"
-            class="relative flex items-center w-full"
+            class="relative flex items-center w-full bg-white"
         >
             <input type="search" class="block w-full p-2 text-sm text-gray-900 border border-gray-300 rounded-lg"
                 placeholder="Search"
@@ -70,10 +73,9 @@
         </button>
         </form>
     </div>
-
         @if (users)
         {
-              <mat-table [dataSource]="users.data" style="" class="bg-gray-50 rounded-lg border-1 border-gray-300 box-border">
+              <mat-table [dataSource]="users.data" style="" class="bg-gray-50 rounded-lg border-1 border-gray-300 box-border overflow-hidden">
 
             <ng-container matColumnDef="user">
                 <mat-header-cell *matHeaderCellDef  style="min-width: 60px; max-width: 350px;" > User </mat-header-cell>
@@ -130,5 +132,6 @@
     </mat-table>
 
 }
+</div>
       </mat-drawer-container>
 </div>

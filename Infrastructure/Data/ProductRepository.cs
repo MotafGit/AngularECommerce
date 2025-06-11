@@ -31,9 +31,52 @@ public class ProductRepository(StoreContext context) : IProductRepository
     //     .ToListAsync();
     // }
 
-    public async Task<Product?> GetProduct(int id)
+    public async Task<object?> GetProduct(int id)
     {
-        return await context.Products.FindAsync(id);
+        // return await context.Products.FindAsync(id);
+
+    return context.Products
+    .Include(x => x.BrandNavigation)
+    .Include(x => x.TypeNavigation)
+    .Include(x => x.Reviews)
+        .ThenInclude(r => r.UserNavigation)
+    .Where(x => x.Id == id)
+    .Select(x => new
+    {
+        x.Id,
+        x.Name,
+        x.Description,
+        x.Price,
+        x.PictureUrl,
+        x.TypeId,
+        x.BrandId,
+        x.QuantityInStock,
+        x.AvgScore,
+        TypeNavigation = new
+        {
+            x.TypeNavigation!.TypeName,
+            x.TypeNavigation.TypesTypeId,
+            x.TypeNavigation.Id
+        },
+        BrandNavigation = new
+        {
+            x.BrandNavigation!.BrandName,
+            x.BrandNavigation.BrandTypeId,
+            x.BrandNavigation.Id
+        },
+        Reviews = x.Reviews.Select(r => new
+        {
+            r.Id,
+            r.Comment,
+            r.Score,
+            r.ReviewData,
+            r.Title,
+            FirstName = r.UserNavigation!.FirstName,
+            LastName = r.UserNavigation.LastName
+        }).ToList()
+    })
+    .FirstOrDefault();
+
     }
 
     public async Task<IReadOnlyList<Product>> GetProducts()

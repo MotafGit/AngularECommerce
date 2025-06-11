@@ -2,23 +2,23 @@
     <div class="flex flex-col p-3 gap-3 border-gray-300  font-medium cursor-pointer" style="border-right-width: 2px; width: 280px;"(click)="closeDrawer()">
         <div class="flex dashboardItems" (click)="selectedItem = 1" [ngClass]="{'activeItem': selectedItem === 1}" >
             <span class="material-symbols-outlined self-center">dashboard</span>
-            <span class="pl-2"> Dashboard</span>
+            <span class="pl-2 self-center"> Dashboard</span>
         </div>
         <div class="flex dashboardItems" (click)="selectedItem = 2" [ngClass]="{'activeItem': selectedItem === 2}">
             <span class="material-symbols-outlined self-center">work</span>
-            <span class="pl-2"> Products</span>
+            <span class="pl-2 self-center"> Products</span>
         </div>
         <div class="flex dashboardItems" (click)="selectedItem = 3" [ngClass]="{'activeItem': selectedItem === 3}">
             <span class="material-symbols-outlined self-center">group</span>
-            <span class="pl-2"> Users</span>
+            <span class="pl-2 self-center"> Users</span>
         </div>
         <div class="flex dashboardItems" (click)="selectedItem = 4" [ngClass]="{'activeItem': selectedItem === 4}">
             <span class="material-symbols-outlined self-center">orders</span>
-            <span class="pl-2"> Orders</span>
+            <span class="pl-2 self-center"> Orders</span>
         </div>
         <div class="flex dashboardItems" (click)="selectedItem = 5" [ngClass]="{'activeItem': selectedItem === 5}">
             <span class="material-symbols-outlined self-center">shopping_cart</span>
-            <span class="pl-2"> Carts</span>
+            <span class="pl-2 self-center"> Carts</span>
         </div>
     </div>
     <div class="flex-grow w-full h-full bg-gray-50" style="height: calc(100vh - 6rem);">

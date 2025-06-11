@@ -25,7 +25,9 @@ public class ProductSpecification : BaseSpecification<Product>
                 AddInclude(a);
             }
         }
-        
+
+        var reviews = GenericExpression<Product>("Reviews");
+        AddInclude(reviews);
 
         ApplyPaging(specParams.PageSize * (specParams.PageIndex -1 ), specParams.PageSize);
         switch (specParams.Sort)

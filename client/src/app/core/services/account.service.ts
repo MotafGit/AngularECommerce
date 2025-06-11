@@ -14,6 +14,7 @@ export class AccountService {
   private http = inject(HttpClient)
   currentUser = signal <User | null> (null)
   cartService = inject(CartService)
+  totalUsers: number | null = null
 
   login (values: any){
     let params = new HttpParams()
@@ -51,6 +52,10 @@ export class AccountService {
 
   getAuthState(){
     return this.http.get<{isAuthenticated: boolean}>(this.baseUrl + 'account/auth-status')
+  }
+
+  getTotalUsers(){
+    return this.http.get<number>(this.baseUrl + "account/totalUsers"  )
   }
   
 }

@@ -120,6 +120,15 @@ public class AccountController(SignInManager<AppUser> signInManager, IUsersServi
     }
 
 
+    [HttpGet("totalUsers")]
+    public async Task<ActionResult<int>> GetTotalUsers(){
+        var count = await service.CounterAsync();
+
+        return Ok(count);
+
+    }
+
+
     //     [HttpGet("users")]
     // public async Task<ActionResult<IReadOnlyList<AppUser>>> GetUsers(){
 

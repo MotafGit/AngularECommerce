@@ -9,4 +9,7 @@ public interface IOrdersService
 
     Task <string> SetOrder(Order order);
 
+    Task <RevenueAndOrdersDto?> GetRevenueAndNumberOfOrders();
+
+
 }

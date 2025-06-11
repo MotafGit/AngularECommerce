@@ -18,7 +18,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController (IGenericRepository<Product> repo, IHttpClientFactory httpClientFactory, StoreContext context) : BaseApiController
+public class ProductsController (IGenericRepository<Product> repo, IHttpClientFactory httpClientFactory, StoreContext context, IProductRepository productRepo) : BaseApiController
 {
 
 
@@ -50,10 +50,82 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
     // }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<Product>> GetProduct( int id){
-        var product = await repo.GetByIdAsyncWithIncludes( id,[ x => x.BrandNavigation, x => x.TypeNavigation]);
+    public async Task<ActionResult<object>> GetProduct( int id){
+       // var product = await repo.GetByIdAsyncWithIncludes( id,[ x => x.BrandNavigation, x => x.TypeNavigation, x => x.Reviews]);
+
+    //    var product =  context.Products
+    //     .Include(x => x.BrandNavigation)
+    //     .Include(x => x.TypeNavigation)
+    //     .Include(x => x.Reviews)
+    //     .ThenInclude(x => x.UserNavigation)
+    //     .Where(x => x.Id == id)
+    //     .FirstOrDefault();
+
+    var product = await productRepo.GetProduct(id);
+    if (product == null){return NotFound();}
+
+    // // var product = context.Products
+    // // .Include(x => x.BrandNavigation)
+    // // .Include(x => x.TypeNavigation)
+    // // .Include(x => x.Reviews)
+    // //     .ThenInclude(r => r.UserNavigation)
+    // // .Where(x => x.Id == id)
+    // // .Select(x => new
+    // // {
+    // //     x.Name,
+    // //     x.Description,
+    // //     x.Price,
+    // //     x.PictureUrl,
+    // //     x.TypeId,
+    // //     x.BrandId,
+    // //     x.QuantityInStock,
+    // //     x.AvgScore,
+    // //     TypeNavigation = new
+    // //     {
+    // //         x.TypeNavigation.TypeName,
+    // //         x.TypeNavigation.TypesTypeId,
+    // //         x.TypeNavigation.Id
+    // //     },
+    // //     BrandNavigation = new
+    // //     {
+    // //         x.BrandNavigation.BrandName,
+    // //         x.BrandNavigation.BrandTypeId,
+    // //         x.BrandNavigation.Id
+    // //     },
+    // //     Reviews = x.Reviews.Select(r => new
+    // //     {
+    // //         r.Id,
+    // //         r.Comment,
+    // //         r.Score,
+    // //         UserFirstName = r.UserNavigation.FirstName,
+    // //         UserLastName = r.UserNavigation.LastName
+    // //     }).ToList()
+    // // })
+    // // .FirstOrDefault();
 
         // var product = await repo.GetByIdAsync(id);
+
+
+//  ---
+    //     var product = context.Products
+    // .Include(x => x.BrandNavigation)
+    // .Include(x => x.TypeNavigation)
+    // .Include(x => x.Reviews)
+    //   //  .ThenInclude(r => r.UserNavigation)
+    // .Where(x => x.Id == id)
+    // .Select(x => new ProductWithUserDto
+    // {
+    //     Product = x,
+    //     Reviews = x.Reviews.Select(r => new ReviewDto
+    //     {
+    //         Comment = r.Comment,
+    //         FirstName = r.UserNavigation.FirstName,
+    //         LastName = r.UserNavigation.LastName
+    //     }).ToList()
+    // })
+    // .FirstOrDefault();
+
+
         
         if (product == null) return NotFound();
         return product;
@@ -273,11 +345,35 @@ public class ProductsController (IGenericRepository<Product> repo, IHttpClientFa
             }
     }
 
+     [HttpGet("totalProducts")]
+    public async Task<ActionResult<int>> GetTotalProduct(){
+        var aux = new ProductSpecParams();
+       var spec = new ProductSpecification(aux);
+
+       var count = await repo.CounterAsync(spec);
+
+       return Ok(count);
+    }   
+
 
     public class UpdateProductRequest
-{
+    {
     public required Product Product { get; set; }
     public required string PreviousUrl { get; set; }
+    }
+
+public class ProductWithUserDto
+    {
+    public Product Product { get; set; }
+
+    public List<ReviewDto> Reviews { get; set; }
+    }
+
+    public class ReviewDto
+{
+    public string Comment { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
 }
 
 }

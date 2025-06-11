@@ -39,7 +39,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
         return await context.Set<T>().FindAsync(id);
     }
 
-        public  async Task<T?> GetByIdAsyncWithIncludes(int id, params Expression<Func<T, object>>[] includeExpressions)
+    public  async Task<T?> GetByIdAsyncWithIncludes(int id, params Expression<Func<T, object>>[] includeExpressions)
     {
         IQueryable<T> query = context.Set<T>();
         
@@ -123,4 +123,7 @@ public class GenericRepository<T>(StoreContext context) : IGenericRepository<T> 
 
         return await query.FirstOrDefaultAsync(e => EF.Property<string>(e, "Id").Equals(id));
     }
+
+
+
 }

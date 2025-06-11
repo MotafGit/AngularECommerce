@@ -78,6 +78,23 @@ public class OrderController(SignInManager<AppUser> signInManager,IUsersService 
         if (order == null) return NotFound();
         return order;
      }
+
+
+    [HttpGet("revenueAndOrders")] 
+     public async Task<ActionResult<RevenueAndOrdersDto>> GetTotalRevenueAndOrders() 
+     {
+
+
+        var res = await orderService.GetRevenueAndNumberOfOrders();
+
+
+        return Ok( new RevenueAndOrdersDto {TotalRevenue = res?.TotalRevenue, TotalOrders = res?.TotalOrders });
+
+     }
+
+
+
+
 }
 
         

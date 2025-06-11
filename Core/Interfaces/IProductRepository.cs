@@ -7,7 +7,7 @@ public interface IProductRepository
 {
     Task<IReadOnlyList<Product>>GetProducts(string? brands, string? type, string? sort);
 
-    Task<Product?> GetProduct(int id);
+    Task<object?> GetProduct(int id);
 
     Task<IReadOnlyList<string>> GetBrandsAsync();
 

@@ -11,8 +11,8 @@
                         <div class="text-green-600">Completed</div>
                     </div>
                     <div class="flex justify-between">
-                        <div>
-                            {{order.orderDate}}
+                        <div class="text-sm text-gray-500">
+                            {{generalService.parseDate(order.orderDate)}}
                         </div>
                         <div>
                             {{order.orderPrice}}€
@@ -35,7 +35,7 @@
                                      {{product.productNavigation.price * product.quantity }} €
                                 </div>
                                 <div class="text-sm text-slate-400 text-end">
-                                     {{product.quantity > 1 ? (product.productNavigation.price * product.quantity + '€ each') : ''}}
+                                     {{product.quantity > 1 ? (product.productNavigation.price + '€ each') : ''}}
                                 </div>
                                 
                             </div>

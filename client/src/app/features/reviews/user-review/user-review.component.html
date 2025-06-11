@@ -1,0 +1,24 @@
+<div class="p-5 border-1 border-gray-300 mb-4">
+    <div class="flex">
+        <div class="h-12 w-12 rounded-full border-gray-300 border-1 text-center content-center mr-3">
+            photo
+        </div>
+        <div class="flex flex-col pl-2">
+            <div class="font-bold">{{ review.firstName }} {{ review.lastName }}</div>
+            <div class="flex items-center">
+                <div style="margin-left: -6px;" >
+                    <star-rating class="justify-start" [starType]="'svg'" [rating]="review.score!"></star-rating>
+                </div>
+                <div class="text-xs text-gray-400">
+                    {{generalService.parseDate(review.reviewData)}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="font-semibold pt-2">
+         {{review.title}}
+    </div>
+    <div class="text-gray-400 pt-2">
+        {{review.comment}}
+    </div>
+</div>

@@ -19,4 +19,12 @@ public class Order : BaseEntity
 
     public virtual ICollection<OrderProduct> OrderProductsNavigation { get; set; } = new List<OrderProduct>();
 
+    
+
+}
+
+public class RevenueAndOrdersDto
+{
+    public decimal? TotalRevenue { get; set; }
+    public int? TotalOrders { get; set; }
 }

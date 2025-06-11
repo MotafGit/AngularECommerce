@@ -11,7 +11,12 @@
                 <h2 class="text-sm font-semibold uppercase pt-1" style="height:75px" >
                     {{product.name}}
                 </h2>
-                <p class="font-medium">{{ product.price}} €</p>
+                <div class="h-4 flex items-center">
+                    <star-rating  [getHalfStarVisible]="getHalfStarClass" [showHalfStars]="true" class="float-left pr-2" style="transform:scale(1.2)" [readOnly]="true" [starType]="'svg'" [rating]="product.avgScore!"></star-rating>
+                    <span class="text-sm text-gray-600">({{product.reviews.length}})</span>
+                </div>  
+               
+                <div class="font-medium">{{ product.price}} €</div>
 
             </mat-card-content>
          
@@ -26,7 +31,7 @@
                 }
                 @else
                 {
-                    <div> No stock Available</div>
+                    <div> Out of stock</div>
                 }
             </mat-card-actions>
             </div>

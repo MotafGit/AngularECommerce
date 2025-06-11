@@ -8,6 +8,7 @@ import { ShopService } from '../../../core/services/shop.service';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
 import { AccountService } from '../../../core/services/account.service';
+import { StarRatingConfigService, StarRatingModule } from 'angular-star-rating';
 
 
 @Component({
@@ -20,7 +21,11 @@ import { AccountService } from '../../../core/services/account.service';
     MatButton,
     MatIcon,
     RouterLink,
-    CommonModule
+    CommonModule,
+    StarRatingModule
+],
+  providers:[
+    StarRatingConfigService,
   ],
   templateUrl: './product-item.component.html',
   styleUrl: './product-item.component.scss'
@@ -37,6 +42,13 @@ export class ProductItemComponent {
   //   console.log("sim")
   //   this.shopService.getProduct(id);
   // }
+
+     getHalfStarClass(rating: number): boolean {
+    const fractionalPart = rating - Math.floor(rating);
+    // Consider a threshold to decide if fractional part warrants a half star
+    // For example, if fractional part is between 0.25 and 0.75, show half
+    return fractionalPart >= 0.25 && fractionalPart <= 0.75;
+  }
 
 }
 

@@ -130,7 +130,7 @@ method: any;
           quantityInStock: 0,
           isProduct: true,
           typeNavigation: null,
-          brandNavigation: null
+          brandNavigation: null,
         }
 
         auxList.push(product)

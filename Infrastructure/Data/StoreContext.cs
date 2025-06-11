@@ -31,6 +31,9 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
 
     public DbSet<OrderProduct> OrderProducts { get; set; }
 
+    public DbSet<Reviews> Reviews { get; set; }
+
+
 
 
 

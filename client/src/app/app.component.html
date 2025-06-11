@@ -1,9 +1,9 @@
 
 <app-header></app-header>
 
-<div [ngClass]="{'no-margin': isSpecialComponent || homeComponent, }" class="container" style="padding-top: 80px;" >
+<div [ngClass]="{'no-margin': isSpecialComponent || homeComponent, }" class="container" style="padding-top: 80px;min-height: calc( 100vh - 295px);" >
 
-  <router-outlet></router-outlet>
+  <router-outlet ></router-outlet>
 
 </div>
 

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.Specification;
 
-public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expression<Func<T, object>>> includes ) : ISpecification<T> where T : class
+public class BaseSpecification<T>(Expression<Func<T,bool>>? criteria, List<Expression<Func<T, object>>>? includes ) : ISpecification<T> where T : class
 {
 
     // private Func<Product, bool> value;

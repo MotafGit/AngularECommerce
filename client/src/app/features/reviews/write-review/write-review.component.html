@@ -1,0 +1,44 @@
+<div class="p-5 border-1 border-gray-300">
+    <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+        <div class=" flex flex-col">
+            <div class="self-start">
+                <mat-label class="mb-3">Rating</mat-label>
+                <!-- <input formControlName="score" type="number" matInput > -->
+                   <star-rating-control formControlName="score" class="writeAReview"  >
+                    
+                   </star-rating-control>
+                   <!-- @if(reviewForm.value.score == null)
+                   {
+                        <mat-error>Rating is required</mat-error>
+                   } -->
+            </div>     
+ <!-- <star-rating-control formControlName="myRatingControl" ></star-rating-control> -->
+
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2 pt-4">
+                <mat-label>Title</mat-label>
+                <input formControlName="title" type="text" matInput >
+                <mat-error>Title is required</mat-error>
+            </mat-form-field>
+
+            <mat-form-field  form-field appearance="outline" class="small mb-2" >
+                <mat-label>Your Review</mat-label>
+                <textarea formControlName="comment" rows="4" matInput style="overflow-y: hidden!important"  matInput></textarea>
+                <mat-error>Description is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="flex justify-end">
+            <div>
+                <button mat-stroked-button type="submit" class="blackToWhiteButton"  [disabled]="reviewForm.invalid"> 
+                    Submit Review
+                </button>
+            </div>
+            <div class="pl-2">
+                <button mat-stroked-button class="whiteToBlackButton"  type="button" (click)="closeReview.emit(false)">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

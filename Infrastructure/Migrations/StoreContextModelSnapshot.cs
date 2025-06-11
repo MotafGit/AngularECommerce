@@ -329,6 +329,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal?>("AvgScore")
+                        .HasColumnType("decimal(3,2)");
+
                     b.Property<int>("BrandId")
                         .HasColumnType("int");
 
@@ -360,6 +363,43 @@ namespace Infrastructure.Migrations
                     b.HasIndex("TypeId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Core.Entities.Reviews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReviewData")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("Core.Entities.ShoppingCart", b =>
@@ -683,6 +723,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("TypeNavigation");
                 });
 
+            modelBuilder.Entity("Core.Entities.Reviews", b =>
+                {
+                    b.HasOne("Core.Entities.Product", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Entities.AppUser", "UserNavigation")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("UserNavigation");
+                });
+
             modelBuilder.Entity("Core.Entities.Types", b =>
                 {
                     b.HasOne("Core.Entities.TypesType", "TypesTypeNavigation")
@@ -758,6 +813,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
                     b.Navigation("OrderProducts");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("Core.Entities.ShoppingCart", b =>

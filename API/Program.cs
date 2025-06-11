@@ -44,6 +44,9 @@ builder.Services.AddScoped<IOrdersService,OrdersService>();
 builder.Services.AddScoped<IPaymentRepository,PaymentRepository>();
 builder.Services.AddScoped<IUsersService,UsersService>();
 builder.Services.AddScoped<IUsersRepository,UsersRepository>();
+builder.Services.AddScoped<IReviewService,ReviewService>();
+
+
 
 builder.Services.AddHttpClient();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
@@ -136,7 +139,7 @@ try
     using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<StoreContext>();
-    // await context.Database.MigrateAsync();
+    await context.Database.MigrateAsync();
     // await StoreContextSeed.SeedAsync(context);
     // var strategy = context.Database.CreateExecutionStrategy();
 

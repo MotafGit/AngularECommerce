@@ -16,7 +16,7 @@
                         </p>
                     </div>
                     <div class="flex gap-4 mt-6 mb-2">
-                        <button [disabled]="quantityInCart===quantity" mat-flat-button class="match-input-height" style="height:62px" (click)="addProduct(productDetails, quantity)">
+                        <button [disabled]="quantityInCart===quantity  || productDetails.quantityInStock==0" mat-flat-button class="match-input-height" style="height:62px" (click)="addProduct(productDetails, quantity)">
                             <mat-icon>shopping_cart</mat-icon>
                             {{updateAddToCartButton()}} 
                         </button>
@@ -32,5 +32,52 @@
                 </div>
             </div>
         </div>
+       
     </section>
+    <div class="p-4">
+        <div class="flex justify-between">
+            <div class="text-2xl font-bold pb-3">
+                Customer Reviews
+            </div>
+            <div>
+                <button class="blackToWhiteButton p-1 border-1 border-black rounded-lg" (click)="validateIfUserCanReview(productDetails.id!)">
+                    Write a Review
+                </button>
+            </div>
+        </div>
+        <div class="flex justify-between ">
+            <div class="flex items-center ">
+                <div class="text-3xl font-bold">
+                    {{productDetails.reviews.length > 0 ?  productDetails.avgScore : "No reviews yet"}}
+                </div>
+                <div class="flex flex-col ml-4">
+                    <div class="self-star">
+                        <star-rating  [getHalfStarVisible]="getHalfStarClass" [showHalfStars]="true" class="float-left ml-2" style="transform:scale(1.4)" [readOnly]="true" [starType]="'svg'" [rating]="productDetails.avgScore!"></star-rating>
+                    </div>
+                    <div >
+                        {{productDetails.reviews.length > 0 ? "Based on " +  productDetails.reviews.length + " reviews" : ""}}
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col"> 
+                <div>review graph</div>
+                <div class="text-xs">still</div>
+                <div class="text-xs"> in progress</div>
+            </div>
+        </div>
+        <div class="my-5 h-2 border-b border-gray-300 "></div>
+        
+        @if(writeReview)
+        {
+            <div class="pt-3">
+            <app-write-review [productId]="productDetails.id" (closeAndSaveReview)="closeReview($event)" (closeReview)="writeReview=$event" ></app-write-review>
+            </div>
+        }
+        <div class="pt-4">
+            @for (review of productDetails.reviews; track review.id) {
+            <app-user-review [review]="review"></app-user-review>
+            }
+        </div>
+    </div>
+
 }

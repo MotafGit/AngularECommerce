@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MatCard } from '@angular/material/card';
+import { GeneralService } from '../../../cores/service/general.service';
 
 @Component({
   selector: 'app-completed-orders',
@@ -10,7 +11,7 @@ import { MatCard } from '@angular/material/card';
   styleUrl: './completed-orders.component.scss'
 })
 export class CompletedOrdersComponent {
-
+    generalService = inject(GeneralService)
 
     @Input() showOrdersFromUser?: any
 }

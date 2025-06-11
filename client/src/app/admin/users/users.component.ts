@@ -53,7 +53,7 @@ export class UsersComponent implements OnInit{
     ngOnInit(): void {
       this.baseParams.sort = ''
       this.baseParams.pageNumber = 1
-      this.baseParams.pageSize = 10
+      this.baseParams.pageSize = 50
 
       this.getUsers(this.baseParams).subscribe({
         next: response => this.users = response

@@ -9,6 +9,7 @@ import { lastValueFrom } from 'rxjs';
 import { InitService } from './core/services/init.service';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
+
 function initializeApp(InitService: InitService) {
   return () => lastValueFrom(InitService.init()).finally(() => {
     const splash = document.getElementById('initial-splash')

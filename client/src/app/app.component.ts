@@ -11,7 +11,7 @@ import { faCoffee, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { faGooglePay, faApplePay } from '@fortawesome/free-brands-svg-icons';
 import { NgClass } from '@angular/common';
 import { FooterComponent } from "./layout/footer/footer.component";
-
+import { StarRatingModule } from 'angular-star-rating';
 
 @Component({
   selector: 'app-root',
